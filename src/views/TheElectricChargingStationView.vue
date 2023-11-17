@@ -76,10 +76,15 @@ const getChargingStations = () => {
   );
 };
 
+
+
 const viewStation = (station) => {
   selectStation.value = station;
 };
 </script>
+
+
+
 
 <template>
   <div class="container text-center mt-3">
@@ -91,17 +96,22 @@ const viewStation = (station) => {
       <div class="col"><VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" /></div>
     </div>
     <VKakaoMap :stations="chargingStations" :selectStation="selectStation" />
-    <table class="table table-hover">
+
+
+
+
+    <!-- <table class="table table-hover">
       <thead>
         <tr class="text-center">
-          <th scope="col">충전소명</th>
-          <th scope="col">충전소ID</th>
-          <th scope="col">충전기상태</th>
-          <th scope="col">위치</th>
+          <th scope="col">시도</th>
+          <th scope="col">구군</th>
+          <th scope="col">관광지명</th>
+          <th scope="col">주소</th>
           <th scope="col">위도</th>
           <th scope="col">경도</th>
         </tr>
       </thead>
+
       <tbody>
         <tr
           class="text-center"
@@ -117,7 +127,36 @@ const viewStation = (station) => {
           <td>{{ station.lng }}</td>
         </tr>
       </tbody>
+    </table> -->
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>대표이미지</th>
+          <th>관광지명</th>
+          <th>주소</th>
+          <th>위도</th>
+          <th>경도</th>
+        </tr>
+      </thead>
+      <tbody id="trip-list">
+        <tr
+        class="text-center"
+          v-for="markerItem in chargingStations"
+          :key="markerItem.statId + markerItem.chgerId"
+          @click="viewStation(markerItem)"
+        >
+          <td><img :src="markerItem.firstimage" /></td>
+          <td>{{ markerItem.title }}</td>
+          <td>{{ markerItem.addr1 }} {{ markerItem.addr2 }}</td>
+          <td>{{ markerItem.mapy }}</td>
+          <td>{{ markerItem.mapx }}</td>
+        </tr>
+      </tbody>
     </table>
+
+
+
   </div>
 </template>
 
