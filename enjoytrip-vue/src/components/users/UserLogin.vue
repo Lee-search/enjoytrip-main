@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
@@ -25,6 +25,13 @@ const login = async () => {
   console.log("1. ", token, "isLogin: ", isLogin);
 
   if (isLogin) {
+
+    if (saveId.value) { // 체크박스 활성화 시, 아이디 저장
+      setCookie('userId', loginUser.value.userId, 7); // 7일 동안 저장
+    } else {  // 쿠키에서 아이디 제거
+      setCookie('userId', '', -1);
+    }
+
     console.log("로그인 성공");
     getUserInfo(token);
     changeMenuState();
@@ -33,11 +40,41 @@ const login = async () => {
 };
 
 // 회원가입 이동
-const join = () => router.push("/user/join")
+const join = () => router.push("/user/join");
+
+// 쿠키를 통해 아이디 저장, 저장되어있으면 확인 후 form을 채워넣도록 함
+const saveId = ref(false);
+const setCookie = (name, value, days) => {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  // "name=value; expires=date; path=/";
+  document.cookie = `${name}=${value || ""}${expires}; path=/`;
+};
+
+const getCookie = (name) => {
+  let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return value ? decodeURIComponent(value[2]) : null;
+};
+
+onMounted(() => {
+  const savedUserId = getCookie('userId');
+  if (savedUserId) {
+    loginUser.value.userId = savedUserId;
+    saveId.value = true;
+  }
+});
+
+// 찾기 이동
+const find = (path) => router.push(`/user/find/${path}`);
+
 </script>
 
 <template>
-  <div class="container ">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <h2 class="my-4 py-3 shadow bg-primary text-white text-center rounded">
@@ -52,17 +89,23 @@ const join = () => router.push("/user/join")
           </div>
           <div class="d-flex justify-content-end mb-3">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="saveid" />
-              <label class="form-check-label" for="saveid">아이디 저장</label>
+              <input class="form-check-input" type="checkbox" id="saveid" v-model="saveId"/>
+              <label class="form-check-label" for="saveId">아이디 저장</label>
             </div>
           </div>
-          <div class="mb-3 text-start">
+          <div class="mb-4 text-start">
             <label for="userpwd" class="form-label">비밀번호:</label>
             <input type="password" class="form-control" v-model="loginUser.userPwd" @keyup.enter="login" placeholder="비밀번호..." />
           </div>
-          <div class="text-center">
-            <button type="button" class="btn btn-primary mb-3" @click="login">로그인</button>
-            <button type="button" class="btn btn-success ms-2 mb-3" @click="join">회원가입</button>
+          <div class="mb-3 text-center">
+            <button type="button" class="btn btn-primary" @click="login">로그인</button>
+            <button type="button" class="btn btn-success ms-2" @click="join">회원가입</button>
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="text-center">
+              <button type="button" class="btn btn-link" @click="find('id')">아이디 찾기</button>
+              <button type="button" class="btn btn-link" @click="find('pwd')">비밀번호 찾기</button>
+            </div>
           </div>
         </form>
       </div>

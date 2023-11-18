@@ -59,5 +59,25 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.userRegistration(memberDto);
 	}
 
+	@Override
+	public String userFindId(MemberDto memberDto) throws Exception {
+		try {
+			return memberMapper.userFindId(memberDto);
+		} catch (Exception e) {
+			// 결과가 null이 오는 경우, 즉 결과가 없는 경우 빈 문자열 리턴
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	public String userFindPwd(MemberDto memberDto) throws Exception {
+		try {
+			return memberMapper.userFindPwd(memberDto);
+		} catch (Exception e) {
+			// 결과가 null이 오는 경우, 즉 결과가 없는 경우 빈 문자열 리턴
+			e.printStackTrace();
+			return "";
+		}
+	}
 
 }

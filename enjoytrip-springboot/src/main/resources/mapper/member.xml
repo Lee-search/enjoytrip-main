@@ -53,4 +53,16 @@
 		values (#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</select>
 
+	<select id="userFindId" parameterType="com.ssafy.vue.member.model.MemberDto">
+		select user_id
+		from members
+		where user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
+	</select>
+
+	<select id="userFindPwd" parameterType="com.ssafy.vue.member.model.MemberDto">
+		select user_password
+		from members
+		where user_id = #{userId} and user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
+	</select>
+
 </mapper>

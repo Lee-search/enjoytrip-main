@@ -2,11 +2,8 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter } from "vue-router";
 
-import { localAxios } from "@/util/http-commons";
 import { idcheck, registration } from "@/api/user";
-import { httpStatusCode } from "@/util/http-status";
 
-const local = localAxios();
 const router = useRouter();
 
 const formData = ref({
@@ -40,7 +37,7 @@ watch(() => formData.value.userid, () => {
 // 아이디 이미 존재하는지 확인
 const checkedMsgValue = computed(() => {
   if (isUserIdAvailable.value === null) {
-    return '중복확인을 진행해주세요.';
+    return '아이디 중복확인을 진행해주세요.';
   } else if (isUserIdAvailable.value === false) {
     return `${formData.value.userid}는 이미 사용 중인 아이디입니다.`;
   } else if (isUserIdAvailable.value === true) {
@@ -108,7 +105,8 @@ const submitRegistration = async () => {
     return;
   }
 
-  console.log(formData.value);
+  // console.log(formData.value);
+  // formData 하고 memberDto가 일치하지 않음, 추기
   const tempData = {
     userName: formData.value.username,
     userId: formData.value.userid,
@@ -120,8 +118,8 @@ const submitRegistration = async () => {
   await registration(
     tempData,
     (response) => { // 회원가입 성공
-      alert("회원 가입 완료!!!");
-      router.push({ name: "user-login" });
+      // alert("회원 가입 완료!!!");
+      router.push({ name: "user-welcome" });
     },
     (error) => {
       console.error(error);
@@ -132,7 +130,7 @@ const submitRegistration = async () => {
 
 <template>
   <div class="container vh-100">
-  <div class="row justify-content-center align-items-center h-100">
+  <div class="row justify-content-center">
     <div class="col-lg-8">
       <h2 class="my-4 py-3 shadow bg-info text-white text-center rounded">
         회원가입

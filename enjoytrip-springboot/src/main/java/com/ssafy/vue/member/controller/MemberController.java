@@ -176,4 +176,46 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 아이디 / 비밀번호 찾기 부분 -------------------------------------------------------------
+	@ApiOperation(value = "아이디 찾기", notes = "이름과 이메일을 기준으로 아이디를 찾아서 리턴한다.", response = Map.class)
+	@PostMapping("/find/id")
+	public ResponseEntity<?> findIdByNameAndEmail(@RequestBody @ApiParam(value = "개인정보 파라미터", required = true) MemberDto memberDto) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+//		System.out.println(memberDto);
+
+		try {
+			String userId = memberService.userFindId(memberDto);
+			log.debug("userId : {}", userId);
+			resultMap.put("userId", userId);
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			log.debug("아이디 찾기 중 에러 발생 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "비밀번호 찾기", notes = "아이디, 이름과 이메일을 기준으로 비밀번호를 찾아서 리턴한다.", response = Map.class)
+	@PostMapping("/find/pwd")
+	public ResponseEntity<?> findPwdByIdAndNameAndEmail(@RequestBody @ApiParam(value = "개인정보 파라미터", required = true) MemberDto memberDto) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+//		System.out.println(memberDto);
+
+		try {
+			String userPwd = memberService.userFindPwd(memberDto);
+			log.debug("userPwd : {}", userPwd);
+			resultMap.put("userPwd", userPwd);
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			log.debug("비밀번호 찾기 중 에러 발생 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 }

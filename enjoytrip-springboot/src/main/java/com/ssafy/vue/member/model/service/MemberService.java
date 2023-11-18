@@ -12,5 +12,7 @@ public interface MemberService {
 	Object getRefreshToken(String userId) throws Exception;
 	void deleRefreshToken(String userId) throws Exception;
 	int idExistingCheck(String userId) throws Exception; // 아이디 중복 체크
-	void userRegistration(MemberDto memberDto) throws Exception;	// 회원 가입ㄴ
+	void userRegistration(MemberDto memberDto) throws Exception;	// 회원 가입
+	String userFindId(MemberDto memberDto) throws Exception;
+	String userFindPwd(MemberDto memberDto) throws Exception;
 }

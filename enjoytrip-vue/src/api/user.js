@@ -30,4 +30,12 @@ async function registration(user, success, fail) {
   await local.post(`/user/registration`, user).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, idcheck, registration };
+async function findUserId(user, success, fail) {
+  await local.post(`/user/find/id`, user).then(success).catch(fail);
+}
+
+async function findUserPassword(user, success, fail) {
+  await local.post(`/user/find/pwd`, user).then(success).catch(fail);
+}
+
+export { userConfirm, findById, tokenRegeneration, logout, idcheck, registration, findUserId, findUserPassword };
