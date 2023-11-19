@@ -39,9 +39,6 @@ const login = async () => {
   router.push("/");
 };
 
-// 회원가입 이동
-const join = () => router.push("/user/join");
-
 // 쿠키를 통해 아이디 저장, 저장되어있으면 확인 후 form을 채워넣도록 함
 const saveId = ref(false);
 const setCookie = (name, value, days) => {
@@ -68,6 +65,9 @@ onMounted(() => {
   }
 });
 
+
+// 회원가입 이동
+const join = () => router.push("/user/join");
 // 찾기 이동
 const find = (path) => router.push(`/user/find/${path}`);
 
