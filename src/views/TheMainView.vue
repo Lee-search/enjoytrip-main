@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+
+
+</script>
 
 <template>
   <div style="height: 40px"></div>
@@ -25,11 +28,26 @@
             href="#"
             >회원가입</a
           >
-          <a href="./attraction.html" class="btn btn-secondary my-2">관광지 조회</a>
+          <router-link to="/estations" class="btn btn-secondary my-2">여행 떠나기</router-link>
         </p>
       </div>
     </div>
   </section>
+
+  <div class="container">
+    <a
+      class="weatherwidget-io mt-3 mb-3"
+      href="https://forecast7.com/en/35d91127d77/south-korea/"
+      data-label_1="오늘의 날씨"
+      data-icons="Climacons Animated"
+      data-theme="pure"
+      >오늘의 날씨</a
+    >
+  </div>
+
+
+
+
 </template>
 
 

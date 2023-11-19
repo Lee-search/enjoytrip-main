@@ -106,6 +106,12 @@ const router = createRouter({
       name: "todos",
       component: () => import("@/views/TheTodoView.vue"),
     },
+
+    {
+      path: "/attractdetail",
+      name: "attractdetail",
+      component: () => import("@/components/map/AttractDetail.vue"),
+    },
   ],
 });
 
