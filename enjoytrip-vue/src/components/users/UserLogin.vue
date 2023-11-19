@@ -22,7 +22,6 @@ const loginUser = ref({
 const login = async () => {
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem("accessToken");
-  console.log("1. ", token, "isLogin: ", isLogin);
 
   if (isLogin) {
 
@@ -35,8 +34,12 @@ const login = async () => {
     console.log("로그인 성공");
     getUserInfo(token);
     changeMenuState();
+
+    router.push("/");
+  } else {
+    alert("아이디와 비밀번호를 확인해주세요.");
   }
-  router.push("/");
+  
 };
 
 // 쿠키를 통해 아이디 저장, 저장되어있으면 확인 후 form을 채워넣도록 함

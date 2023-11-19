@@ -23,7 +23,7 @@ const goToMainPage = () => router.push("/");
             <button class="btn btn-primary mx-2" @click="goToLoginPage">로그인</button>
             <button class="btn btn-success mx-2" @click="goToMainPage">메인 페이지로 이동</button>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>

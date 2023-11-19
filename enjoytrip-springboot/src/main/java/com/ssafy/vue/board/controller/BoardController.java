@@ -109,7 +109,6 @@ public class BoardController {
 		log.info("deleteArticle - 호출");
 		boardService.deleteArticle(articleno);
 		return ResponseEntity.ok().build();
-
 	}
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {

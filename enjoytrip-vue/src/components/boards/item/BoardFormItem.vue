@@ -1,14 +1,19 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { registArticle, getModifyArticle, modifyArticle } from "@/api/board";
+
+import { useMemberStore } from "@/stores/member";
+
+const memberStore = useMemberStore();
+// const { userInfo } = memberStore;
+// console.log(userInfo);
+const userInfo = computed(() => memberStore.userInfo);
 
 const router = useRouter();
 const route = useRoute();
 
 const props = defineProps({ type: String });
-
-const isUseId = ref(false);
 
 const article = ref({
   articleNo: 0,
@@ -20,6 +25,7 @@ const article = ref({
   registerTime: "",
 });
 
+// 게시글 수정하기 
 if (props.type === "modify") {
   let { articleno } = route.params;
   console.log(articleno + "번글 얻어와서 수정할거야");
@@ -27,13 +33,11 @@ if (props.type === "modify") {
     articleno,
     ({ data }) => {
       article.value = data;
-      isUseId.value = true;
     },
     (error) => {
       console.log(error);
     }
   );
-  isUseId.value = true;
 }
 
 const subjectErrMsg = ref("");
@@ -73,6 +77,9 @@ function onSubmit() {
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
+  article.value.userId = userInfo.value.userId;
+  article.value.userName = userInfo.value.userName;
+
   registArticle(
     article.value,
     (response) => {
@@ -108,16 +115,6 @@ function moveList() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label for="userid" class="form-label">작성자 ID : </label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="article.userId"
-        :disabled="isUseId"
-        placeholder="작성자ID..."
-      />
-    </div>
     <div class="mb-3">
       <label for="subject" class="form-label">제목 : </label>
       <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />

@@ -89,6 +89,7 @@ const foundId = ref("");
           </div>
           <div class="d-flex justify-content-center mb-3">
             <button class="btn btn-primary mx-2" @click.prevent="submitFindUserId">아이디 찾기</button>
+            <button class="btn btn-secondary mx-2" @click="goToLoginPage">뒤로</button>
           </div>
         </div>
       </div>

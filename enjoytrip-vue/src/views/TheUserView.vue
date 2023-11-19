@@ -1,5 +1,6 @@
 <script setup></script>
 
+<!--로그인, 회원가입, 마이페이지, 아이디/비밀번호 찾기, 웰컴 페이지 -->
 <template>
   <div class="full-screen-container bg-image">
     <router-view></router-view>

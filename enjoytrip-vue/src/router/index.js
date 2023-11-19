@@ -2,8 +2,27 @@ import { createRouter, createWebHistory } from "vue-router";
 import TheMainView from "../views/TheMainView.vue";
 import TheElectricChargingStationView from "@/views/TheElectricChargingStationView.vue";
 // import TheBoardView from "../views/TheBoardView.vue";
-
 import TheAttractionView from "@/views/TheAttractionView.vue";
+
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+
+const onlyAuthUser = async (to, from, next) => {
+  const memberStore = useMemberStore();
+  const { userInfo, isValidToken } = storeToRefs(memberStore);
+  const { getUserInfo } = memberStore;
+
+  let token = sessionStorage.getItem("accessToken");
+
+  if (userInfo.value != null && token) {
+    await getUserInfo(token);
+  }
+  if (!isValidToken.value || userInfo.value === null) {
+    next({ name: "user-login" });
+  } else {
+    next();
+  }
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +50,7 @@ const router = createRouter({
         {
           path: "mypage",
           name: "user-mypage",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/users/UserMyPage.vue"),
         },
         // {
@@ -88,16 +108,19 @@ const router = createRouter({
         {
           path: "view/:articleno",
           name: "article-view",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardDetail.vue"),
         },
         {
           path: "write",
           name: "article-write",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardWrite.vue"),
         },
         {
           path: "modify/:articleno",
           name: "article-modify",
+          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardModify.vue"),
         },
       ],
