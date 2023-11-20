@@ -5,14 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ssafy.vue.board.model.BoardDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.vue.member.model.MemberDto;
 import com.ssafy.vue.member.model.service.MemberService;
@@ -217,5 +213,16 @@ public class MemberController {
 		}
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 개인정보 수정
+	@ApiOperation(value = "회원정보 수정", notes = "마이페이지에서 회원정보를 수정한다.", response = Map.class)
+	@PutMapping("/info")
+	public ResponseEntity<Map<String, Object>> modifyUserInfo(
+			@RequestBody @ApiParam(value = "개인정보 파라미터", required = true) MemberDto memberDto) throws Exception {
+		log.debug("Modify User Info by : {}", memberDto.toString());
+
+		memberService.userModifyInfo(memberDto);
+		return ResponseEntity.ok().build();
 	}
 }

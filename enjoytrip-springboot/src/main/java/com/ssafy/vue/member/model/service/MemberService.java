@@ -15,4 +15,5 @@ public interface MemberService {
 	void userRegistration(MemberDto memberDto) throws Exception;	// 회원 가입
 	String userFindId(MemberDto memberDto) throws Exception;
 	String userFindPwd(MemberDto memberDto) throws Exception;
+    void userModifyInfo(MemberDto memberDto);
 }

@@ -40,4 +40,26 @@ async function findUserPassword(user, success, fail) {
   await local.post(`/user/find/pwd`, user).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, idcheck, registration, findUserId, findUserPassword };
+/* User Modify Logic */
+async function modifyUserInfo(user, success, fail) {
+  console.log(user);
+  await local.put(`/user/info`, user).then(success).catch(fail);
+}
+
+async function modifyPassword(userpwd, success, fail) {
+  console.log(user);
+  await local.put(`/user/pwd`, userpwd).then(success).catch(fail);
+}
+
+export { 
+  userConfirm, 
+  findById, 
+  tokenRegeneration, 
+  logout, 
+  idcheck, 
+  registration, 
+  findUserId, 
+  findUserPassword, 
+  modifyUserInfo,
+  modifyPassword,
+};

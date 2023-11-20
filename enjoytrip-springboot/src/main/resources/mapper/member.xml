@@ -48,21 +48,27 @@
 		select count(user_id) from members where user_id = #{userId}
 	</select>
 
-	<select id="userRegistration" parameterType="com.ssafy.vue.member.model.MemberDto">
+	<select id="userRegistration" parameterType="memberDto">
 		insert into members (user_id, user_name, user_password, email_id, email_domain, join_date)
 		values (#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</select>
 
-	<select id="userFindId" parameterType="com.ssafy.vue.member.model.MemberDto">
+	<select id="userFindId" parameterType="memberDto">
 		select user_id
 		from members
 		where user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
 	</select>
 
-	<select id="userFindPwd" parameterType="com.ssafy.vue.member.model.MemberDto">
+	<select id="userFindPwd" parameterType="memberDto">
 		select user_password
 		from members
 		where user_id = #{userId} and user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
 	</select>
+
+	<update id="userModifyInfo" parameterType="memberDto">
+		update members
+		set user_name = #{userName}, email_id = #{emailId}, email_domain = #{emailDomain}
+		where user_id = #{userId}
+	</update>
 
 </mapper>

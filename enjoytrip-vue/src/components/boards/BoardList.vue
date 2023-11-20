@@ -66,19 +66,19 @@ const moveWrite = () => {
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">글목록</mark>
+      <div class="col-lg-6">
+        <h2 class="my-4 py-3 shadow bg-info text-white text-center rounded">
+          여행 공유 게시판
         </h2>
       </div>
-      <div class="col-lg-10">
+      <div class="col-lg-12">
         <div class="row align-self-center mb-2">
-          <div class="col-md-2 text-start">
+          <div class="col-4 col-md-2 text-start">
             <button type="button" class="btn btn-outline-primary btn-sm" @click="moveWrite">
               글쓰기
             </button>
           </div>
-          <div class="col-md-5 offset-5">
+          <div class="col-8 col-md offset-6">
             <form class="d-flex">
               <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
               <div class="input-group input-group-sm ms-1">

@@ -80,4 +80,9 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
+	@Override
+	public void userModifyInfo(MemberDto memberDto) {
+		memberMapper.userModifyInfo(memberDto);
+	}
+
 }
