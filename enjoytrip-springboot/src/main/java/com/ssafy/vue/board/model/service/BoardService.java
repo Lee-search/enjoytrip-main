@@ -1,7 +1,9 @@
 package com.ssafy.vue.board.model.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.ssafy.vue.board.model.CommentDto;
 import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.BoardListDto;
 
@@ -16,5 +18,10 @@ public interface BoardService {
 	void modifyArticle(BoardDto boardDto) throws Exception;
 //	
 	void deleteArticle(int articleNo) throws Exception;
-	
+
+	List<CommentDto> getComments(int articleNo) throws Exception;
+
+	void writeComment(CommentDto commentDto) throws Exception;
+
+	void deleteComment(int commentId);
 }

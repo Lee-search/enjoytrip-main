@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.vue.board.model.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,6 +126,22 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteArticle(int articleNo) throws Exception {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
 		boardMapper.deleteArticle(articleNo);
+	}
+
+	@Override
+	public List<CommentDto> getComments(int articleNo) throws Exception {
+//		List<CommentDto> list = boardMapper.listComment(articleNo);
+		return boardMapper.listComment(articleNo);
+	}
+
+	@Override
+	public void writeComment(CommentDto commentDto) throws Exception {
+		boardMapper.writeComment(commentDto);
+	}
+
+	@Override
+	public void deleteComment(int commentId) {
+		boardMapper.deleteComment(commentId);
 	}
 
 }

@@ -23,7 +23,7 @@ const login = async () => {
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem("accessToken");
 
-  if (isLogin) {
+  if (isLogin.value) {
 
     if (saveId.value) { // 체크박스 활성화 시, 아이디 저장
       setCookie('userId', loginUser.value.userId, 7); // 7일 동안 저장

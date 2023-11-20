@@ -1,10 +1,11 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
 import { userConfirm, findById, tokenRegeneration, logout } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
+
+import { defineStore } from 'pinia';
 
 export const useMemberStore = defineStore("memberStore", () => {
   const router = useRouter();
@@ -129,4 +130,6 @@ export const useMemberStore = defineStore("memberStore", () => {
     tokenRegenerate,
     userLogout,
   };
+}, {
+  persist: true
 });

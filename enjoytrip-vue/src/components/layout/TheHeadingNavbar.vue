@@ -9,8 +9,12 @@ const menuStore = useMenuStore();
 const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+
 const logout = () => {
   console.log("로그아웃!!!!");
+  memberStore.userLogout();
   changeMenuState();
 };
 </script>

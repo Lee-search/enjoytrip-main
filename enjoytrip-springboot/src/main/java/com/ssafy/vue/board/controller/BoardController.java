@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.vue.board.model.CommentDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -115,4 +116,45 @@ public class BoardController {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	// 댓글 관련 추가 사항
+	@ApiOperation(value = "게시판 댓글보기", notes = "글번호에 해당하는 게시글의 댓글 정보를 반환한다.", response = BoardDto.class)
+	@GetMapping("/comments/{articleno}")
+	public ResponseEntity<List<CommentDto>> getCommentsByArticleNo(
+			@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno)
+			throws Exception {
+		log.info("getCommentsByArticleNo - 호출 : " + articleno);
+		List<CommentDto> list = boardService.getComments(articleno);
+
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "게시판 댓글 작성", notes = "새로운 댓글 내용을 입력한다.")
+	@PostMapping("/comments")
+	public ResponseEntity<?> writeComment(
+			@RequestBody @ApiParam(value = "게시글 정보.", required = true) CommentDto commentDto) {
+		log.info("writeComment commentDto - {}", commentDto);
+		try {
+			boardService.writeComment(commentDto);
+//			return ResponseEntity.ok().build();
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "게시판 댓글 삭제", notes = "해당하는 commentId의 댓글을 삭제한다.")
+	@DeleteMapping("/comments/{commentId}")
+	public ResponseEntity<?> deleteComment(
+			@PathVariable("commentId") @ApiParam(value = "얻어올 글의 글번호.", required = true) int commentId) {
+		log.info("deleteComment - 호출");
+		try {
+			boardService.deleteComment(commentId);
+//			return ResponseEntity.ok().build();
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
 }

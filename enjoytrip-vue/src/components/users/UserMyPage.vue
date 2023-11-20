@@ -19,9 +19,9 @@ const userInfo = ref({
         </h2>
       </div>
       <div class="col-lg-8">
-        <div class="card mt-3 m-auto" style="max-width: 700px">
+        <div class="card m-auto" style="max-width: 700px">
           <div class="row g-0">
-            <div class="col-md-4">
+            <div class="mx-2 my-2">
               <img
                 src="https://source.unsplash.com/random/250x250/?food"
                 class="img-fluid rounded mt-4"

@@ -24,6 +24,15 @@
 		<result column="save_file" property="saveFile"/>
 	</resultMap>
 
+	<resultMap type="commentDto" id="comment">
+		<result column="comment_id" property="commentId"/>
+		<result column="article_no" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName" />
+		<result column="comment_text" property="commentText"/>
+		<result column="comment_time" property="commentTime"/>
+	</resultMap>
+
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time)
 		values (#{userId}, #{subject}, #{content}, 0, now())
@@ -101,6 +110,27 @@
 	<delete id="deleteArticle" parameterType="int">
 		delete from board
 		where article_no = #{articleNo}
+	</delete>
+
+	<!-- 댓글 관련 추가 -->
+	<select id="listComment" parameterType="int" resultMap="comment">
+		select c.comment_id, c.article_no, c.user_id, m.user_name, c.comment_text, c.comment_time
+		from comments c
+		inner join members m on c.user_id = m.user_id
+		where c.article_no = #{articleNo};
+	</select>
+
+	<insert id="writeComment" parameterType="commentDto">
+		insert into comments (article_no, user_id, comment_text, comment_time)
+		values (#{articleNo}, #{userId}, #{commentText}, now())
+		<selectKey resultType="int" keyProperty="commentId" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<delete id="deleteComment" parameterType="int">
+		delete from comments
+		where comment_id = #{commentId}
 	</delete>
 
 </mapper>
