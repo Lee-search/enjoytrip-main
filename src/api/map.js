@@ -18,4 +18,11 @@ function getAttractionList(params, success, fail) {
     .catch(fail);
 }
 
-export { listSido, listGugun,getAttractionList };
+
+
+function getAttractionDetail(param, success, fail) {
+  local.get(`/map/detail`, { params: param }).then(success).catch(fail);
+}
+
+export { listSido, listGugun,getAttractionList,getAttractionDetail };
+//

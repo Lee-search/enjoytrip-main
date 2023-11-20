@@ -34,16 +34,7 @@
     </div>
   </section>
 
-  <div class="container">
-    <a
-      class="weatherwidget-io mt-3 mb-3"
-      href="https://forecast7.com/en/35d91127d77/south-korea/"
-      data-label_1="오늘의 날씨"
-      data-icons="Climacons Animated"
-      data-theme="pure"
-      >오늘의 날씨</a
-    >
-  </div>
+  
 
 
 

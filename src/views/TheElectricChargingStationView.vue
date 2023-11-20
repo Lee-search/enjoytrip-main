@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { listStations } from "@/api/estation";
 import { listSido, listGugun } from "@/api/map";
-
+import { useRouter } from 'vue-router';
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 import VSelect from "@/components/common/VSelect.vue";
 
@@ -16,6 +16,16 @@ const selectStation = ref({});
 const selectedOption = ref("12"); // 기본값으로 "관광지" 선택
 const showTable = ref(true);
 const selectedStation = ref({});
+const router = useRouter();
+const newProperty = 'New Property Value';
+
+
+const selectOption = (option) => {
+  selectedOption.value = option;
+  // 선택된 옵션에 따라 원하는 동작 수행
+  onChangeAttraction();
+};
+
 
 const param = ref({
   serviceKey: VITE_OPEN_API_SERVICE_KEY,
@@ -101,8 +111,12 @@ const getChargingStations = () => {
           ? data.response.body.items.item
           : [data.response.body.items.item];
 
-        console.log(items)
+        console.log(items)  //item cotents id가 존재함
         chargingStations.value = items;
+        console.log(chargingStations.value) //여기에도 cotentid가존재함
+        // chargingStations.value.forEach(station => {
+        // station.contentid = items.contentid;
+        // });
         console.log(chargingStations.value)
       } else {
         console.error('Invalid data structure:', data);
@@ -119,9 +133,26 @@ const getChargingStations = () => {
 
 const viewStation = (station) => {
   selectStation.value = station;
-  showTable.value = false;
-  selectedStation.value = station;
+  console.log(selectStation.value)
+  
 };
+
+const viewStation2 = (station) => {
+  selectStation.value = station;
+  console.log(selectStation.value.title);
+  console.log(selectStation.value.addr1);
+  console.log(selectStation.value.firstimage);
+  router.push({
+    name: 'attractdetail', params: {
+      stationData1: selectStation.value.title,
+      stationData2: selectStation.value.addr1,
+      stationData3:selectStation.value.firstimage
+    }
+
+  });
+};
+
+
 
 
 
@@ -133,78 +164,97 @@ const viewStation = (station) => {
 
 <template>
   <div class="container text-center mt-3">
-    <div class="alert alert-success" role="alert">관광지 정보</div>
+    <div style="background-color: #ffffff; color: #2c3e50; padding: 20px;">
+      <h1 style="font-size: 2em;">관광지 검색</h1>
+      <p>지역별 관광지 정보를 검색하시오.</p>
+    </div>
 
     <div class="row mb-2">
-    <div class="col d-flex flex-row-reverse">
-      <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido"/>
+      <div class="col d-flex flex-row-reverse">
+        <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" style="background-color: #333; color: #fff; height: 40px;" />
+      </div>
+      <div class="col">
+        <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" style="background-color: #333; color: #fff; height: 40px;" />
+      </div>
     </div>
-    <div class="col"><VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" /></div>
 
     <div class="col">
-      <select v-model="selectedOption" @change="onChangeAttraction" class="form-select">
-        <option value="12">관광지</option>
-        <option value="14">문화시설</option>
-        <option value="15">축제공연행사</option>
-        <option value="25">여행코스</option>
-        <option value="28">레포츠</option>
-        <option value="32">숙박</option>
-        <option value="38">쇼핑</option>
-        <option value="39">음식점</option>
-      </select>
-    
-    
-    
+      <button @click="selectOption('12')" :class="{ 'btn': true, 'btn-primary': selectedOption === '12', 'btn-secondary': selectedOption !== '12' }" style="margin-right: 5px; margin-bottom: 5px;">관광지</button>
+      <button @click="selectOption('14')" :class="{ 'btn': true, 'btn-primary': selectedOption === '14', 'btn-secondary': selectedOption !== '14' }" style="margin-right: 5px; margin-bottom: 5px;">문화시설</button>
+      <button @click="selectOption('15')" :class="{ 'btn': true, 'btn-primary': selectedOption === '15', 'btn-secondary': selectedOption !== '15' }" style="margin-right: 5px; margin-bottom: 5px;">축제공연행사</button>
+      <button @click="selectOption('25')" :class="{ 'btn': true, 'btn-primary': selectedOption === '25', 'btn-secondary': selectedOption !== '25' }" style="margin-right: 5px; margin-bottom: 5px;">여행코스</button>
+      <button @click="selectOption('28')" :class="{ 'btn': true, 'btn-primary': selectedOption === '28', 'btn-secondary': selectedOption !== '28' }" style="margin-right: 5px; margin-bottom: 5px;">레포츠</button>
+      <button @click="selectOption('32')" :class="{ 'btn': true, 'btn-primary': selectedOption === '32', 'btn-secondary': selectedOption !== '32' }" style="margin-right: 5px; margin-bottom: 5px;">숙박</button>
+      <button @click="selectOption('38')" :class="{ 'btn': true, 'btn-primary': selectedOption === '38', 'btn-secondary': selectedOption !== '38' }" style="margin-right: 5px; margin-bottom: 5px;">쇼핑</button>
+      <button @click="selectOption('39')" :class="{ 'btn': true, 'btn-primary': selectedOption === '39', 'btn-secondary': selectedOption !== '39' }" style="margin-right: 5px; margin-bottom: 5px;">음식점</button>
     </div>
-
-
   </div>
+ 
 
 
 
     <!-- 카카오맵 표시 -->
     
-
     <!-- 관광지 정보 테이블 -->
     <div v-if="!showTable">
-      <img
-        :src="selectedStation.firstimage"
-        style="max-width: 100%; max-height: 100vh;"
-      />
+      <img:src="selectedStation.firstimage"
+      style="max-width: 100%; max-height: 100vh;"/>
     </div>
     <div v-else>
-      <table class="table table-hover">
-        <thead>
-          <tr class="text-center">
-            <th scope="col">대표이미지</th>
-            <th scope="col">관광지명</th>
-            <th scope="col">주소</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- 관광지 정보 반복 출력 -->
-          <tr class="text-center" v-for="station in chargingStations" :key="station.title">
-            <td>
-              <img :src="station.firstimage" style="max-width: 100px; max-height: 100px;" />
-            </td>
-            <td>{{ station.title }}</td>
-            <td>{{ station.addr1 }} {{ station.addr2 }}</td>
-            <td>
-              <button @click="viewStation(station)">여행지 담기</button>
-            </td>
-            <router-link :to="{ name: 'attractdetail', params: { station: JSON.stringify(station) } }" class="nav-link button-like">
-              <button>자세히보기</button>
-            </router-link>
-          </tr>
-        </tbody>
-      </table>
+      <!---->
+      
+      <div class="container">
+  <div class="row">
+    <!-- 관광지 정보 반복 출력 -->
+    <div v-for="station in chargingStations" :key="station.title" class="col-md-3 mb-4">
+      <div class="card">
+        <!-- Check if the image is available -->
+        <div class="image-container">
+          <img v-if="station.firstimage" :src="station.firstimage" class="card-img-top" />
+          <div v-else class="no-image-placeholder">
+            <img src="@/assets/img/logo.png" alt="No Image Available" />
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ station.title }}</h5>
+          <p class="card-text">{{ station.addr1 }} {{ station.addr2 }}</p>
+          <button @click="viewStation(station)" class="btn btn-primary">여행지 담기</button>
+          <router-link to="/attractdetail">
+            <button @click="viewStation2(station)" class="btn btn-secondary">자세히보기</button>
+          </router-link>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+      <!---->
+    </div>
+  
   <VKakaoMap :stations="chargingStations" :selectStation="selectStation" />
 </template>
 
 <style>
 mark.purple {
   background: linear-gradient(to top, #c354ff 20%, transparent 30%);
+}
+
+.image-container {
+  max-height: 100px; /* 원하는 높이 설정 */
+  overflow: hidden;
+}
+
+.image-container img, .no-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image-placeholder {
+  background-color: #f0f0f0; /* 이미지가 없을 때의 배경색 설정 */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px; /* 원하는 높이 설정 */
 }
 </style>

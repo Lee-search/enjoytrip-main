@@ -1,25 +1,24 @@
-<template>
-  <div>
-    <h1>Attract Detail</h1>
-    <p v-if="station">{{ station }}</p>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const station = ref(null);
+const selectStation = ref(null);
 
 onMounted(() => {
-  if (route.params.station) {
-    try {
-      station.value = JSON.parse(route.params.station);
-      console.log(station)
-    } catch (error) {
-      console.error('Error parsing station JSON:', error);
-    }
-  }
+  console.log(route.query.stationData1); // 첫 번째 데이터
+console.log(route.query.stationData2); // 두 번째 데이터
+console.log(route.query.stationData3); // 세 번째 데이터
+  // route.params를 사용하여 데이터에 접근
+  // if (route.params.stationData) {
+  //   selectStation.value = route.params.stationData;
+  // }
 });
 </script>
+
+<template>
+  <div>
+    <h1>관광지 상세 정보</h1>
+    <p>{{ selectStation }}</p>
+  </div>
+</template>

@@ -50,8 +50,8 @@
 	</select>
 	
 	<select id="getAttractionDetail" parameterType="int" resultMap="attraction">
-		select content_id, content_type_id, title, addr1, addr2, zipcode, tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
-		from attraction_info
+		select overview,content_id
+		from attraction_description
 		where content_id = #{contentId}
 	</select>
 	

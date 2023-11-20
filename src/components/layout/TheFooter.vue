@@ -28,7 +28,6 @@ footer {
   width: 100%;
   height: 70px;
   margin-top: 2%;
-  background-color: antiquewhite;
 }
 .copyright {
   float: left;

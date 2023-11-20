@@ -10,6 +10,7 @@ const distanceOverlay = ref(null);
 
 const props = defineProps({ stations: Array, selectStation: Object });
 
+
 watch(
   () => props.selectStation.value,
   () => {
@@ -17,7 +18,6 @@ watch(
       props.selectStation.mapy,
       props.selectStation.mapx
     );
-    console.log(props.selectStation);
     map.panTo(moveLatLon);
     addMarker(moveLatLon, props.selectStation);
     showInfoWindow(props.selectStation);
