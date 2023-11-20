@@ -134,6 +134,11 @@ const drawLine = () => {
   distanceOverlay.value.setPosition(path[path.length - 1]);
 
   console.log("누적 거리: ", accumulatedDistance);
+
+  const bounds = new kakao.maps.LatLngBounds();
+  path.forEach((position) => bounds.extend(position));
+  map.setBounds(bounds);
+  
 };
 
 const removeMarkers = () => {

@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { listStations } from "@/api/estation";
-import { listSido, listGugun } from "@/api/map";
-import { useRouter } from 'vue-router';
+import { listSido, listGugun,getAttractionDetail } from "@/api/map";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 import VSelect from "@/components/common/VSelect.vue";
 
@@ -10,14 +9,12 @@ import VSelect from "@/components/common/VSelect.vue";
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const sidoList = ref([{text: "도시선택", value: "1"}]);
-const gugunList = ref([{ text: "구군선택", value: "" }]);
+const gugunList = ref([{ text: "구군선택", value: "1" }]);
 const chargingStations = ref([]);
 const selectStation = ref({});
 const selectedOption = ref("12"); // 기본값으로 "관광지" 선택
 const showTable = ref(true);
-const selectedStation = ref({});
-const router = useRouter();
-const newProperty = 'New Property Value';
+const detatilattract=ref();
 
 
 const selectOption = (option) => {
@@ -43,7 +40,7 @@ const param = ref({
 
 
 onMounted(() => {
-  // getChargingStations();
+  getChargingStations();
   getSidoList();
 });
 
@@ -130,6 +127,39 @@ const getChargingStations = () => {
 
 
 
+const getdetail = (contentid) => {
+  // 관광지 상세 정보를 가져올 때 필요한 파라미터 설정
+  console.log(contentid)
+  const detailParam = {
+    contentId: contentid,
+    // 기타 필요한 파라미터도 추가할 수 있습니다
+  };
+
+  // getAttractionDetail 함수 호출
+  getAttractionDetail(
+    detailParam,
+    ({ data }) => {
+      // 성공한 경우
+      if (data) {
+        // 가져온 데이터를 활용하여 원하는 작업 수행
+        detatilattract.value = data.attraction.overview;
+      } else {
+        console.error('Invalid data structure:', data);
+      }
+    },
+    (err) => {
+      // 실패한 경우
+      console.error('Error fetching attraction detail:', err);
+    }
+  );
+};
+
+
+
+
+
+
+
 
 const viewStation = (station) => {
   selectStation.value = station;
@@ -139,17 +169,11 @@ const viewStation = (station) => {
 
 const viewStation2 = (station) => {
   selectStation.value = station;
-  console.log(selectStation.value.title);
-  console.log(selectStation.value.addr1);
-  console.log(selectStation.value.firstimage);
-  router.push({
-    name: 'attractdetail', params: {
-      stationData1: selectStation.value.title,
-      stationData2: selectStation.value.addr1,
-      stationData3:selectStation.value.firstimage
-    }
+  showTable.value = !showTable.value;
+  console.log(selectStation.value)
+  getdetail(station.contentid)
+  
 
-  });
 };
 
 
@@ -196,41 +220,53 @@ const viewStation2 = (station) => {
     <!-- 카카오맵 표시 -->
     
     <!-- 관광지 정보 테이블 -->
-    <div v-if="!showTable">
-      <img:src="selectedStation.firstimage"
-      style="max-width: 100%; max-height: 100vh;"/>
+    <div v-if="!showTable" class="detail-container">
+  <div class="image-container">
+    <img v-if="chargingStations.firstimage" :src="chargingStations.firstimage" class="card-img-top" />
+    <div v-else class="no-image-placeholder">
+      <img src="@/assets/noimg.png" alt="No Image Available" />
     </div>
-    <div v-else>
-      <!---->
-      
-      <div class="container">
-  <div class="row">
-    <!-- 관광지 정보 반복 출력 -->
-    <div v-for="station in chargingStations" :key="station.title" class="col-md-3 mb-4">
-      <div class="card">
-        <!-- Check if the image is available -->
-        <div class="image-container">
-          <img v-if="station.firstimage" :src="station.firstimage" class="card-img-top" />
-          <div v-else class="no-image-placeholder">
-            <img src="@/assets/img/logo.png" alt="No Image Available" />
+  </div>
+  
+  <div class="overview-container">
+    <p>{{ detatilattract }}</p>
+    <button @click="viewStation2(station)" class="btn btn-secondary">뒤로가기</button>
+  </div>
+  
+  
+</div>
+
+
+<div v-else>
+  <div class="container">
+    <div class="row">
+      <!-- 관광지 정보 반복 출력 -->
+      <div v-for="station in chargingStations" :key="station.title" class="col-md-3 mb-4">
+        <div class="card h-100">
+          <!-- Check if the image is available -->
+          <div class="image-container">
+            <img v-if="station.firstimage" :src="station.firstimage" class="card-img-top" />
+            <div v-else class="no-image-placeholder">
+              <img src="@/assets/noimg.png" alt="No Image Available" />
+            </div>
           </div>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ station.title }}</h5>
-          <p class="card-text">{{ station.addr1 }} {{ station.addr2 }}</p>
-          <button @click="viewStation(station)" class="btn btn-primary">여행지 담기</button>
-          <router-link to="/attractdetail">
-            <button @click="viewStation2(station)" class="btn btn-secondary">자세히보기</button>
-          </router-link>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ station.title }}</h5>
+            <p class="card-text">{{ station.addr1 }} {{ station.addr2 }}</p>
+            <div class="mt-auto">
+              <button @click="viewStation(station)" class="btn btn-primary">여행지 담기</button>
+              <button @click="viewStation2(station)" class="btn btn-secondary">자세히보기</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-      <!---->
-    </div>
+
+<VKakaoMap :stations="chargingStations" :selectStation="selectStation" style="width: 700px; height: 500px;" />
   
-  <VKakaoMap :stations="chargingStations" :selectStation="selectStation" />
+ 
 </template>
 
 <style>
@@ -257,4 +293,40 @@ mark.purple {
   justify-content: center;
   height: 100px; /* 원하는 높이 설정 */
 }
+
+.image-container {
+  max-height: 300px; /* 이미지가 최대한 높이까지 표시되도록 설정 */
+  overflow: hidden;
+}
+
+.detail-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.image-container img, .no-image-placeholder img {
+  width: 150%; /* 이미지를 오른쪽으로 늘리기 위해 너비를 더 크게 설정 */
+  height: auto;
+  object-fit: cover;
+}
+
+.no-image-placeholder {
+  background-color: #f0f0f0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.overview-container {
+  margin-left: 20px;
+  flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+
 </style>

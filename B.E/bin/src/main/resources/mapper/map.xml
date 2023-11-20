@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getAttractionDetail" parameterType="int" resultMap="attraction">
-		select *
+		select overview,content_id
 		from attraction_description
 		where content_id = #{contentId}
 	</select>
