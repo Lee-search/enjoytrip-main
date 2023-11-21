@@ -77,27 +77,6 @@ const formPwData = ref({
   newPwdcheck: '',
 });
 
-// 로그인 검증 후 비밀번호 수정
-const isCurrentPwd = ref(null);
-const currentPwdConfirm = async () => {
-  await userConfirm(
-    {
-      userId: userInfo.userId, 
-      userPwd: formPwData.value.currentPwd
-    },
-    (response) => {
-      if(response.status === httpStatusCode.UNAUTHORIZED) {
-        isCurrentPwd.value = false;
-      } else {  // 로그인 성공!
-        isCurrentPwd.value = true;
-      }
-    },
-    (error) => {
-      console.error(error);
-    }
-  )
-};
-
 // 비밀번호 변경하기 클릭
 const onModifyPassword = async () => {
   // 비어있는 input값이 있는 경우
@@ -115,23 +94,22 @@ const onModifyPassword = async () => {
     alert('비밀번호를 다시 확인해주세요.');
     return;
   }
-
-  // 비밀번호 일치 여부 확인
-  await currentPwdConfirm();
-  console.log(isCurrentPwd.value);
-  if(isCurrentPwd.value !== true) {
-    alert("아이디와 비밀번호를 확인해주세요.");
-    return;
-  }
   
   await modifyPassword(
-    formPwData.value.newPwd,
+    {
+      "userId": userInfo.userId,
+      "currentPwd": formPwData.value.currentPwd,
+      "newPwd": formPwData.value.newPwd,
+    },
     (response) => {
-      alert("비밀번호 수정 완료!");
-      isPwModify.value = !isPwModify.value;
-      // window.location.reload();
+      if (response.status = httpStatusCode.OK) {
+        alert("비밀번호 수정 완료!");
+        resetForm();
+        isPwModify.value = !isPwModify.value;
+      }
     },
     (error) => {
+      alert("비밀번호를 확인해주세요.");
       console.error(error);
     }
   )
@@ -148,7 +126,7 @@ const onModifyPassword = async () => {
         </h2>
       </div>
       <div class="col-lg-8">
-        <div class="card m-auto px-2 py-2" style="max-width: 700px">
+        <div class="card m-auto px-2 py-2">
           <div class="row g-2">
             <!-- 이미지 부분 -->
             <div class="col-md-4 d-flex align-items-center justify-content-center">
@@ -178,7 +156,7 @@ const onModifyPassword = async () => {
 
       <!-- 회원 정보 수정 -->
       <div class="col-lg-8 mt-4 mb-2" v-show="isUserModify">
-        <div class="card m-auto px-2 py-2" style="max-width: 700px">
+        <div class="card m-auto px-2 py-2">
           <form class="row g-2 p-4">
             <!-- 정보 리스트 부분 -->
             <div class="mb-3 text-start">
@@ -209,7 +187,7 @@ const onModifyPassword = async () => {
 
       <!-- 비밀번호 변경 -->
       <div class="col-lg-8 mt-4 mb-2" v-show="isPwModify">
-        <div class="card m-auto px-2 py-2" style="max-width: 700px">
+        <div class="card m-auto px-2 py-2">
           <form class="row g-2 p-4">
             <!-- 정보 리스트 부분 -->
             <div class="mb-3 text-start">

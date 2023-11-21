@@ -2,7 +2,7 @@ package com.ssafy.vue.member.model.service;
 
 import com.ssafy.vue.member.model.MemberDto;
 
-import java.lang.reflect.Member;
+import java.util.Map;
 
 public interface MemberService {
 
@@ -15,5 +15,6 @@ public interface MemberService {
 	void userRegistration(MemberDto memberDto) throws Exception;	// 회원 가입
 	String userFindId(MemberDto memberDto) throws Exception;
 	String userFindPwd(MemberDto memberDto) throws Exception;
-    void userModifyInfo(MemberDto memberDto);
+    void userModifyInfo(MemberDto memberDto) throws Exception;
+    boolean userModifyPwd(Map<String, String> map) throws Exception;
 }

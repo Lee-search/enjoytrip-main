@@ -81,8 +81,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void userModifyInfo(MemberDto memberDto) {
+	public void userModifyInfo(MemberDto memberDto) throws Exception {
 		memberMapper.userModifyInfo(memberDto);
 	}
+
+	@Override
+	public boolean userModifyPwd(Map<String, String> map) throws Exception {
+		int result = memberMapper.userModifyPwd(map);
+        return result == 1;	// 1 ? 1 : 0
+    }
 
 }

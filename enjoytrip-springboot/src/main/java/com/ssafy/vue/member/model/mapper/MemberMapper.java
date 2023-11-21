@@ -20,4 +20,5 @@ public interface MemberMapper {
 	String userFindId(MemberDto memberDto) throws SQLException;
 	String userFindPwd(MemberDto memberDto) throws SQLException;
 	void userModifyInfo(MemberDto memberDto);
+	int userModifyPwd(Map<String, String> map);
 }

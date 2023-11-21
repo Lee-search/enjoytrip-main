@@ -1,7 +1,8 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { registArticle, getModifyArticle, modifyArticle } from "@/api/board";
+import { registNotice, getModifyNotice, modifyNotice } from "@/api/notice";
 
 import { useMemberStore } from "@/stores/member";
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.vue.board.model.mapper.BoardMapper">
+<mapper namespace="com.ssafy.vue.board.model.mapper.NoticeMapper">
 
 	<resultMap type="boardDto" id="article">
 		<result column="article_no" property="articleNo"/>
@@ -35,7 +35,7 @@
 
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time, category)
-		values (#{userId}, #{subject}, #{content}, 0, now(), '자유게시판')
+		values (#{userId}, #{subject}, #{content}, 0, now(), '공지사항')
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
 		</selectKey>
@@ -64,7 +64,7 @@
 		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.user_name
 		FROM board b
 		JOIN members m ON b.user_id = m.user_id
-		where b.category = '자유게시판'
+		where b.category = '공지사항'
 		<include refid="search"></include>
 		order by b.article_no desc
 		limit #{start}, #{listsize}
@@ -74,7 +74,7 @@
 		select count(article_no)
 		from board
 		<where>
-			category = '자유게시판'
+			category = '공지사항'
 			<include refid="search"></include>
 		</where>
 	</select>

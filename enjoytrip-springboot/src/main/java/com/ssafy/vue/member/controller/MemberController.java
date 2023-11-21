@@ -215,14 +215,38 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 개인정보 수정
+	// 개인정보 수정 ------------------------------------------------------------------------------
 	@ApiOperation(value = "회원정보 수정", notes = "마이페이지에서 회원정보를 수정한다.", response = Map.class)
-	@PutMapping("/info")
+	@PutMapping("/modify/info")
 	public ResponseEntity<Map<String, Object>> modifyUserInfo(
 			@RequestBody @ApiParam(value = "개인정보 파라미터", required = true) MemberDto memberDto) throws Exception {
 		log.debug("Modify User Info by : {}", memberDto.toString());
 
 		memberService.userModifyInfo(memberDto);
 		return ResponseEntity.ok().build();
+	}
+
+	@ApiOperation(value = "비밀번호 변경", notes = "마이페이지에서 비밀번호를 수정한다.", response = Map.class)
+	@PostMapping("/modify/pwd")
+	public ResponseEntity<Map<String, Object>> modifyUserPwd (
+			@RequestBody @ApiParam(value = "개인정보 파라미터", required = true) Map<String, String> map) throws Exception {
+		log.debug("Modify User Password by : {}", map.toString());
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+
+		try {
+			boolean isChanged = memberService.userModifyPwd(map);
+			if(isChanged) {
+				status = HttpStatus.OK;
+			} else { 	// currentPwd 값이 다르면 거절됨
+				status = HttpStatus.UNAUTHORIZED;
+			}
+		} catch (Exception e) {
+			log.debug("비밀번호 찾기 중 에러 발생 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 }

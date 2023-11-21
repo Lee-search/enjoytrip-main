@@ -43,12 +43,12 @@ async function findUserPassword(user, success, fail) {
 /* User Modify Logic */
 async function modifyUserInfo(user, success, fail) {
   console.log(user);
-  await local.put(`/user/info`, user).then(success).catch(fail);
+  await local.put(`/user/modify/info`, user).then(success).catch(fail);
 }
 
-async function modifyPassword(userpwd, success, fail) {
+async function modifyPassword(user, success, fail) {
   console.log(user);
-  await local.put(`/user/pwd`, userpwd).then(success).catch(fail);
+  await local.post(`/user/modify/pwd`, user).then(success).catch(fail);
 }
 
 export { 

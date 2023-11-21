@@ -9,7 +9,7 @@
 
 <style>
 .bg-image {
-  background-image: url('@/assets/img/main-view.jpg');
+  background-image: url('@/assets/img/background.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -19,7 +19,7 @@
 
 .full-screen-container {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   margin: 0;
   padding: 0;
   text-align: center;

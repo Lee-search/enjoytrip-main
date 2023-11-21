@@ -1,37 +1,37 @@
 package com.ssafy.vue.board.model.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.ssafy.vue.board.model.BoardDto;
+import com.ssafy.vue.board.model.BoardListDto;
 import com.ssafy.vue.board.model.CommentDto;
+import com.ssafy.vue.board.model.FileInfoDto;
+import com.ssafy.vue.board.model.mapper.BoardMapper;
+import com.ssafy.vue.board.model.mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.vue.board.model.BoardDto;
-import com.ssafy.vue.board.model.BoardListDto;
-import com.ssafy.vue.board.model.FileInfoDto;
-import com.ssafy.vue.board.model.mapper.BoardMapper;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
-public class BoardServiceImpl implements BoardService {
+public class NoticeServiceImpl implements NoticeService {
 
-	private BoardMapper boardMapper;
+	private NoticeMapper noticeMapper;
 
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper) {
+	public NoticeServiceImpl(NoticeMapper noticeMapper) {
 		super();
-		this.boardMapper = boardMapper;
+		this.noticeMapper = noticeMapper;
 	}
 
 	@Override
 	@Transactional
 	public void writeArticle(BoardDto boardDto) throws Exception {
-		boardMapper.writeArticle(boardDto);
+		noticeMapper.writeArticle(boardDto);
 		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
 		if (fileInfos != null && !fileInfos.isEmpty()) {
-			boardMapper.registerFile(boardDto);
+			noticeMapper.registerFile(boardDto);
 		}
 	}
 
@@ -49,11 +49,11 @@ public class BoardServiceImpl implements BoardService {
 		param.put("key", key == null ? "" : key);
 		if ("user_id".equals(key))
 			param.put("key", key == null ? "" : "b.user_id");
-		List<BoardDto> list = boardMapper.listArticle(param);
+		List<BoardDto> list = noticeMapper.listArticle(param);
 
 		if ("user_id".equals(key))
 			param.put("key", key == null ? "" : "user_id");
-		int totalArticleCount = boardMapper.getTotalArticleCount(param);
+		int totalArticleCount = noticeMapper.getTotalArticleCount(param);
 		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;
 
 		BoardListDto boardListDto = new BoardListDto();
@@ -66,39 +66,39 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDto getArticle(int articleNo) throws Exception {
-		return boardMapper.getArticle(articleNo);
+		return noticeMapper.getArticle(articleNo);
 	}
 
 	@Override
 	public void updateHit(int articleNo) throws Exception {
-		boardMapper.updateHit(articleNo);
+		noticeMapper.updateHit(articleNo);
 	}
 
 	@Override
 	public void modifyArticle(BoardDto boardDto) throws Exception {
 		// TODO : BoardDaoImpl의 modifyArticle 호출
-		boardMapper.modifyArticle(boardDto);
+		noticeMapper.modifyArticle(boardDto);
 	}
 
 	@Override
 	public void deleteArticle(int articleNo) throws Exception {
-		boardMapper.deleteArticle(articleNo);
+		noticeMapper.deleteArticle(articleNo);
 	}
 
 	@Override
 	public List<CommentDto> getComments(int articleNo) throws Exception {
 //		List<CommentDto> list = boardMapper.listComment(articleNo);
-		return boardMapper.listComment(articleNo);
+		return noticeMapper.listComment(articleNo);
 	}
 
 	@Override
 	public void writeComment(CommentDto commentDto) throws Exception {
-		boardMapper.writeComment(commentDto);
+		noticeMapper.writeComment(commentDto);
 	}
 
 	@Override
 	public void deleteComment(int commentId) throws Exception {
-		boardMapper.deleteComment(commentId);
+		noticeMapper.deleteComment(commentId);
 	}
 
 }

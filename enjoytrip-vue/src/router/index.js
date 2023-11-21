@@ -8,20 +8,33 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 
 const onlyAuthUser = async (to, from, next) => {
+  // console.log("to: ", to, "from: ", from);
+
   const memberStore = useMemberStore();
-  const { userInfo, isValidToken } = storeToRefs(memberStore);
-  const { getUserInfo } = memberStore;
+  const token = sessionStorage.getItem("accessToken");
 
-  let token = sessionStorage.getItem("accessToken");
-
-  if (userInfo.value != null && token) {
-    await getUserInfo(token);
+  if (token && !memberStore.userInfo) {
+    try {
+      await memberStore.getUserInfo(token);
+    } catch (error) {
+      console.error('User info fetch failed', error);
+      next({ name: "user-login" });
+      return;
+    }
   }
-  if (!isValidToken.value || userInfo.value === null) {
+
+  if (!memberStore.isValidToken || !memberStore.userInfo) {
     next({ name: "user-login" });
-  } else {
-    next();
+    return;
   }
+
+  if (from.matched[0].name === 'notice' && memberStore.userInfo.userId !== 'admin') {
+    alert("관리자 페이지 입니다!");
+    next({ name: "notice-list" });
+    return;
+  }
+
+  next();
 };
 
 const router = createRouter({
@@ -53,11 +66,6 @@ const router = createRouter({
           beforeEnter: onlyAuthUser,
           component: () => import("@/components/users/UserMyPage.vue"),
         },
-        // {
-        //   path: "modify/:userid",
-        //   name: "user-modify",
-        //   component: () => import("@/components/users/UserModify.vue"),
-        // },
         {
           path: "welcome",
           name: "user-welcome",
@@ -76,11 +84,6 @@ const router = createRouter({
       ],
     },
     {
-      path: "/announce",  // 공지사항
-      name: "announce",
-      component: TheElectricChargingStationView,
-    },
-    {
       path: "/attraction",  // 지역별여행지
       name: "attraction",
       component: TheAttractionView,
@@ -88,11 +91,47 @@ const router = createRouter({
     {
       path: "/plan",   // 나의여행계획
       name: "plan",
-      component: TheElectricChargingStationView,
+      component: TheAttractionView,
+    },
+    
+    {
+      path: "/notice",  // 공지사항
+      name: "notice",
+      component: () => import("../views/TheNoticeView.vue"),
+      redirect: { name: "notice-list" },
+      children: [
+        {
+          path: "list",
+          name: "notice-list",
+          component: () => import("@/components/boards/BoardList.vue"),
+          meta: { type: "notice" },
+        },
+        {
+          path: "view/:noticeno",
+          name: "notice-view",
+          beforeEnter: onlyAuthUser,
+          component: () => import("@/components/boards/BoardDetail.vue"),
+          meta: { type: "notice" },
+        },
+        {
+          path: "write",
+          name: "notice-write",
+          beforeEnter: onlyAuthUser,
+          component: () => import("@/components/boards/BoardWrite.vue"),
+          meta: { type: "notice" },
+        },
+        {
+          path: "modify/:noticeno",
+          name: "notice-modify",
+          beforeEnter: onlyAuthUser,
+          component: () => import("@/components/boards/BoardModify.vue"),
+          meta: { type: "notice" },
+        },
+      ],
     },
     {
-      path: "/board",   // 여행후기공유
-      name: "board",
+      path: "/artice",   // 여행후기공유
+      name: "artice",
       // component: TheBoardView,
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -104,31 +143,30 @@ const router = createRouter({
           path: "list",
           name: "article-list",
           component: () => import("@/components/boards/BoardList.vue"),
+          meta: { type: "article" },
         },
         {
           path: "view/:articleno",
           name: "article-view",
           beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardDetail.vue"),
+          meta: { type: "article" },
         },
         {
           path: "write",
           name: "article-write",
           beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardWrite.vue"),
+          meta: { type: "article" },
         },
         {
           path: "modify/:articleno",
           name: "article-modify",
           beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardModify.vue"),
+          meta: { type: "article" },
         },
       ],
-    },
-    {
-      path: "/estations",   // (예제)전기차
-      name: "estations",
-      component: TheElectricChargingStationView,
     },
   ],
 });

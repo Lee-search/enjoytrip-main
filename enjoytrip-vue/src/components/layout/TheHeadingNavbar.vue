@@ -39,19 +39,16 @@ const logout = () => {
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav my-2 my-lg-0" > 
           <li class="nav-item">
-            <router-link :to="{ name : 'announce' }" class="nav-link">공지사항</router-link>
-          </li>
-          <li class="nav-item">
             <router-link :to="{ name : 'attraction' }" class="nav-link">지역별여행지</router-link>
           </li>
           <li class="nav-item">
             <router-link :to="{ name : 'plan' }" class="nav-link">나의여행계획</router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="{ name: 'board' }" class="nav-link">여행후기공유</router-link>
+            <router-link :to="{ name : 'notice' }" class="nav-link">공지사항</router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="{ name: 'estations' }" class="nav-link">(예제)전기차</router-link>
+            <router-link :to="{ name: 'artice' }" class="nav-link">공유게시판</router-link>
           </li>
         </ul>
         <!-- <form class="d-flex" role="search">

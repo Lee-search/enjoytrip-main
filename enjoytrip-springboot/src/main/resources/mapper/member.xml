@@ -71,4 +71,10 @@
 		where user_id = #{userId}
 	</update>
 
+	<update id="userModifyPwd" parameterType="map">
+		update members
+		set user_password = #{newPwd}
+		where user_id = #{userId} and user_password = #{currentPwd}
+	</update>
+
 </mapper>
