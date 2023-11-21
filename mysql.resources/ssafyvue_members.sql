@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: localhost    Database: ssafyvue
+-- Host: 127.0.0.1    Database: ssafyvue
 -- ------------------------------------------------------
--- Server version	8.0.35
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `members` (
 
 LOCK TABLES `members` WRITE;
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
-INSERT INTO `members` VALUES ('admin','관리자','1234','admin','google.com','2023-10-08 16:10:08',NULL),('hissam','안효인','9876','hissam','ssafy.com','2023-10-26 14:52:05',NULL),('ssafy','김싸피','1234','ssafy','ssafy.com','2023-10-08 16:10:08','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNzAwNDAzNjU5LCJleHAiOjE3MDI5OTU2NTksInVzZXJJZCI6InNzYWZ5In0.qWXK5P5MiOZ_8RQmwRLeQACXy-yUhhdMEyWhdz9llrQ'),('ssafy.hong','홍싸피','1234','ssafy.hong','ssafy.com','2023-10-26 15:37:12',NULL),('ssafy.kim','김싸피','1234','ssafy.kim','ssafy.com','2023-10-26 15:33:08',NULL),('ssafy1','ssaftest','1234','test','naver.com','2023-11-18 14:56:32',NULL),('test1','test1','1234','test','naver.com','2023-11-18 12:48:44','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNzAwMzExNzQxLCJleHAiOjE3MDI5MDM3NDEsInVzZXJJZCI6InRlc3QxIn0.DY9Uc_DeDksm2lkl5MWYWXrJZwjgq1t6yElubMRvyeA'),('test2','ssafy','1234','test','google.com','2023-11-18 15:50:02',NULL);
+INSERT INTO `members` VALUES ('admin','관리자','1234','admin','google.com','2023-10-08 16:10:08','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNzAwNTQ5OTg4LCJleHAiOjE3MDMxNDE5ODgsInVzZXJJZCI6ImFkbWluIn0.W2wYI0TYZJfe85YvgX-ngRhP-Af1UpDQeoGpHzQ3erg'),('hissam','안효인','9876','hissam','ssafy.com','2023-10-26 14:52:05',NULL),('ssafy','김싸피','1234','ssafy','ssafy.com','2023-10-08 16:10:08','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNzAwNDY5MDk3LCJleHAiOjE3MDMwNjEwOTcsInVzZXJJZCI6InNzYWZ5In0.0-mV2d8Uwg0zipmRPhVkFO6oP6UEaFWCFIvvSKzT2t4'),('ssafy.hong','홍싸피','1234','ssafy.hong','ssafy.com','2023-10-26 15:37:12',NULL),('ssafy.kim','김싸피','1234','ssafy.kim','ssafy.com','2023-10-26 15:33:08',NULL),('test','test12345','1234','test','ssafy.com','2023-11-20 01:05:05','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNzAwNTQ3ODEwLCJleHAiOjE3MDMxMzk4MTAsInVzZXJJZCI6InRlc3QifQ.3MNn4r8fnL18qATcHlhV7XI_EUzKZ1XXPiX6QOz4DJk'),('test123','asdasd','1234','asdasd','ssafy.com','2023-11-20 08:27:25',NULL);
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-19 23:26:56
+-- Dump completed on 2023-11-21 16:28:04
