@@ -47,14 +47,17 @@ public class MapServiceImpl implements MapService {
 		return mapMapper.getWhisList(user_id);
 	}
 
-	@Override
-	public void saveWhishlist(WhishlistDto WhishlistDto) throws Exception {
-		mapMapper.saveWhishlist(WhishlistDto);	
-	}
+	
 
 	@Override
 	public void deletwhishlist(int contentid) throws Exception {
 		mapMapper.deletwhishlist(contentid);
+		
+	}
+
+	@Override
+	public void saveWhishlist(WhishlistDto WhishlistDto) throws Exception {
+		mapMapper.saveWhishlist(WhishlistDto);	
 		
 	}
 

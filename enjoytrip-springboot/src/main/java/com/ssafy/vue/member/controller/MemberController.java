@@ -164,7 +164,9 @@ public class MemberController {
 		try {
 			memberService.userRegistration(memberDto);
 			status = HttpStatus.CREATED;
-		} catch (Exception e) {
+		} 
+		
+		catch (Exception e) {
 			log.debug("회원가입 에러 발생 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

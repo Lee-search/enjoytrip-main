@@ -39,19 +39,24 @@ public class MapController {
 	
 	@ApiOperation(value = "찜목록", notes = "찜목록을 불러온다.", response = List.class)
 	@GetMapping("/whishlist")
-	public ResponseEntity<List<WhishlistDto>> sido1( @RequestParam("user_id") String user_id) throws Exception {
+	public ResponseEntity<List<WhishlistDto>> listWhishlist( @RequestParam("user_id") String user_id) throws Exception {
 		log.info("whishlist - 호출");
+		
 		return new ResponseEntity<List<WhishlistDto>>(mapService.getWhisList(user_id), HttpStatus.OK);
 	}
 	
 	
 	@ApiOperation(value = "찜목록 저장", notes = "찜목록을 저장한다..")
-	@PostMapping
-	public ResponseEntity<?> saveWhishlist(
-			@RequestBody @ApiParam(value = "게시글 정보.", required = true) List<WhishlistDto> Whishlist) throws Exception
-	{
+	@PostMapping("/regist")
+	public ResponseEntity<Map<String, Object>> saveWhishlist(
+			@RequestBody @ApiParam(value = "게시글 정보 저장.", required = true) WhishlistDto WhishlistDto) throws Exception{
+	Map<String, Object> resultMap = new HashMap<>();
+	HttpStatus status = HttpStatus.ACCEPTED;
 		log.info("whishlist저장 - 호출");
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		mapService.saveWhishlist(WhishlistDto);
+		status = HttpStatus.CREATED;
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	@ApiOperation(value = "짐목록삭제", notes = "찜목록을 삭제한다" )
