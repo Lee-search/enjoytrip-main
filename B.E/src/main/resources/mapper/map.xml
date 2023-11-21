@@ -56,5 +56,26 @@
 	</select>
 	
 	
+	<select id="getWhisList" parameterType="string" resultType="WhishlistDto">
+		select *
+		from wishlist
+		where user_id = #{user_id}
+	</select>
+	
+	
+	<insert id="saveWhisList" parameterType="WhishlistDto">
+		insert into wishlist (contentid, title, addr1, firstimage,date, user_id)
+		values (#{contentid}, #{title}, #{addr1},#{firstimage},now(),#{user_id})
+	</insert>
+	
+	
+	<delete id="deletwhishlist" parameterType="int">
+		delete from wishlist
+		where contentid = #{contentid}
+	</delete>
+	
+	
+	
+	
 	
 </mapper>
