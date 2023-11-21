@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.vue.member.model.mapper.MemberMapper">
+
+	<resultMap type="memberDto" id="member">
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_password" property="userPwd"/>
+		<result column="email_id" property="emailId"/>
+		<result column="email_domain" property="emailDomain"/>
+		<result column="join_date" property="joinDate"/>
+		<result column="token" property="refreshToken"/>
+	</resultMap>
+
+	<select id="login" parameterType="map" resultMap="member">
+		select user_id, user_name, token
+		from members
+		where user_id = #{userId} and user_password = #{userPwd}
+	</select>
+	
+	<select id="userInfo" parameterType="string" resultMap="member">
+		select user_name, user_id, email_id, email_domain, join_date
+		from members
+		where user_id = #{userId}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update members
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from members
+		where user_id = #{userId}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update members
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
+
+	<select id="idExistingCheck" parameterType="string" resultType="int">
+		select count(user_id) from members where user_id = #{userId}
+	</select>
+
+	<select id="userRegistration" parameterType="memberDto">
+		insert into members (user_id, user_name, user_password, email_id, email_domain, join_date)
+		values (#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, now())
+	</select>
+
+	<select id="userFindId" parameterType="memberDto">
+		select user_id
+		from members
+		where user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
+	</select>
+
+	<select id="userFindPwd" parameterType="memberDto">
+		select user_password
+		from members
+		where user_id = #{userId} and user_name = #{userName} and email_id = #{emailId} and email_domain = #{emailDomain};
+	</select>
+
+	<update id="userModifyInfo" parameterType="memberDto">
+		update members
+		set user_name = #{userName}, email_id = #{emailId}, email_domain = #{emailDomain}
+		where user_id = #{userId}
+	</update>
+
+	<update id="userModifyPwd" parameterType="map">
+		update members
+		set user_password = #{newPwd}
+		where user_id = #{userId} and user_password = #{currentPwd}
+	</update>
+
+</mapper>
