@@ -4,6 +4,12 @@ import { listStations } from "@/api/estation";
 import { listSido, listGugun,getAttractionDetail } from "@/api/map";
 import VKakaoMap from "@/components/common/VKakaoMap.vue";
 import VSelect from "@/components/common/VSelect.vue";
+import { useTodoStore } from "@/stores/todo";
+const todoStore = useTodoStore();
+
+
+
+
 
 // const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
@@ -17,9 +23,13 @@ const showTable = ref(true);
 const detatilattract=ref();
 
 
+// const wishList = reactive([]);  //장바구니 리스트
+
+
 const selectOption = (option) => {
   selectedOption.value = option;
   // 선택된 옵션에 따라 원하는 동작 수행
+  
   onChangeAttraction();
 };
 
@@ -45,6 +55,16 @@ onMounted(() => {
 });
 
 
+// const productsList = () => {
+//   const wishListNames = wishList.value.map((item) => item.name);
+//   products.value.forEach((item) => {
+//     store.setAmount(item.price);
+//     item.price = store.formattedAmount;
+//     item.isFavorite = !item.isFavorite && wishListNames.includes(item.name) ?  true : false;
+//   });
+// };
+
+
 
 const getSidoList = () => {
   listSido(
@@ -62,6 +82,13 @@ const getSidoList = () => {
     }
   );
 };
+
+
+
+
+//리스트 목록에 추가
+
+
 
 
 const onChangeSido = (val) => {  //변경되면   list구군을 
@@ -157,13 +184,14 @@ const getdetail = (contentid) => {
 
 
 
-
-
-
-
 const viewStation = (station) => {
   selectStation.value = station;
   console.log(selectStation.value)
+  todoStore.addTodo(selectStation.value);
+  alert('여행지가 성공적으로 담겼습니다!');
+    
+
+
   
 };
 
@@ -274,15 +302,31 @@ mark.purple {
   background: linear-gradient(to top, #c354ff 20%, transparent 30%);
 }
 
-.image-container {
-  max-height: 100px; /* 원하는 높이 설정 */
-  overflow: hidden;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.image-container img, .no-image-placeholder img {
+.card {
+  max-width: 100%;
+}
+
+.image-container img,
+.no-image-placeholder img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+}
+
+.card-title {
+  font-size: 1.2em; /* 텍스트 크기 조절 */
+}
+
+.card-text {
+  font-size: 1em; /* 텍스트 크기 조절 */
+}
+
+.btn {
+  font-size: 0.8em; /* 버튼 크기 조절 */
 }
 
 .no-image-placeholder {
@@ -294,10 +338,7 @@ mark.purple {
   height: 100px; /* 원하는 높이 설정 */
 }
 
-.image-container {
-  max-height: 300px; /* 이미지가 최대한 높이까지 표시되도록 설정 */
-  overflow: hidden;
-}
+
 
 .detail-container {
   display: flex;
