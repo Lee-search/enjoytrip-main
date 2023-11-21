@@ -1,10 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TheMainView from "../views/TheMainView.vue";
-import TheElectricChargingStationView from "@/views/TheElectricChargingStationView.vue";
 // import TheBoardView from "../views/TheBoardView.vue";
 import TheAttractionView from "@/views/TheAttractionView.vue";
-
-import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 
 const onlyAuthUser = async (to, from, next) => {
@@ -88,12 +85,17 @@ const router = createRouter({
       name: "attraction",
       component: TheAttractionView,
     },
+    // {
+    //   path: "/attractdetail/:stationData1/:stationData2/:stationData3",
+    //   name: "attractdetail",
+    //   component: AttractDetailVue,
+    //   props: true,
+    // },
     {
       path: "/plan",   // 나의여행계획
       name: "plan",
-      component: TheAttractionView,
+      component: () => import("@/views/TheTodoView.vue"),
     },
-    
     {
       path: "/notice",  // 공지사항
       name: "notice",

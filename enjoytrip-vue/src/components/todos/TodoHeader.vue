@@ -1,33 +1,21 @@
-<script setup>
-import { useTodoStore } from "@/stores/todo";
-
-import IconPen from "@/components/icons/IconPen.vue";
-import IconSpinner from "@/components/icons/IconSpinner.vue";
-import IconCheck from "@/components/icons/IconCheck.vue";
-
-const todoStore = useTodoStore();
-</script>
-
 <template>
   <div class="container text-center">
     <div class="row">
-      <div class="col">
+      <div class="col-lg-8 mx-auto"> <!-- Set col-lg-8 and mx-auto for centering -->
         <div class="alert alert-primary" role="alert">
-          <IconPen /> 할일 : {{ todoStore.allTodosCount }}
-        </div>
-      </div>
-      <div class="col">
-        <div class="alert alert-info" role="alert">
-          <IconSpinner /> 진행 : {{ todoStore.activeTodosCount }}
-        </div>
-      </div>
-      <div class="col">
-        <div class="alert alert-danger" role="alert">
-          <IconCheck /> 완료 : {{ todoStore.completedTodosCount }}
+          <IconPen /> 여행지갯수: {{ todoStore.allTodosCount }}
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<script setup>
+import { useTodoStore } from "@/stores/todo";
+
+const todoStore = useTodoStore();
+</script>
+
+<style scoped>
+/* Add additional styling if needed */
+</style>

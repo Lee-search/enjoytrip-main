@@ -8,6 +8,7 @@ export const useMenuStore = defineStore("menuStore", () => {
     // { name: "오늘할일", show: false, routeName: "todos" },
     { name: "내정보", show: false, routeName: "user-mypage" },
     { name: "로그아웃", show: false, routeName: "user-logout" },
+    { name: "찜목록", show: false, routeName: "todos" },
   ]);
 
   const changeMenuState = () => {
