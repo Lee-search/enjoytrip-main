@@ -1,7 +1,6 @@
 <script setup></script>
 
 <template>
-  <div style="height: 40px"></div>
   <section style="position: relative">
     <img
       class="img-fluid card-img"

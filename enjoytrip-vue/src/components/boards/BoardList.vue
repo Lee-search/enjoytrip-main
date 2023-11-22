@@ -8,6 +8,10 @@ import VSelect from "@/components/common/VSelect.vue";
 import BoardListItem from "@/components/boards/item/BoardListItem.vue";
 import VPageNavigation from "@/components/common/VPageNavigation.vue";
 
+// 관리자 여부 확인하기 위한 userInfo
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+const userInfo = computed(() => memberStore.userInfo);
 
 // route.meta를 사용하여 현재 라우트의 메타 데이터에 접근
 const router = useRouter();
@@ -36,6 +40,7 @@ const param = ref({
 
 onMounted(() => {
   console.log("현재 라우트 타입:", routeType.value);
+  console.log("현재 로그인 유저: ", userInfo.value.userId);
   if (routeType.value === 'notice') {
     getNoticeList();
   } else {
@@ -60,8 +65,15 @@ const onPageChange = (val) => {
 };
 
 const moveWrite = () => {
-  if (routeType === 'notice') {
+  // console.log("BoardList:", routeType);
+  if (routeType.value === 'notice') {
+    console.log(userInfo);
+    if(userInfo.value.userId !== 'admin') {
+      alert("해당 게시판은 관리자만 접근 가능합니다.");
+      return;
+    }
     router.push({ name: "notice-write" });
+    
   } else {
     router.push({ name: "article-write" });
   }

@@ -202,7 +202,7 @@ const onDeleteComment = async (commentId, userId) => {
                   <p class="mb-1">{{ comment.commentText }}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">{{ comment.commentTime }}</small>
-                    <button class="btn btn-sm btn-outline-secondary" @click="onDeleteComment(comment.commentId, comment.userId)">삭제</button>
+                    <button class="btn btn-sm btn-outline-danger" @click="onDeleteComment(comment.commentId, comment.userId)">삭제</button>
                   </div>
                 </li>
               </ul>
