@@ -39,6 +39,10 @@ async function deleteComment(commentId, success, fail) {
   await local.delete(`/board/comments/${commentId}`, success, fail);
 }
 
+async function getArticleCount(success, fail) {
+  await local.get(`/board/count`, success, fail);
+}
+
 export {
   listArticle,
   detailArticle,
@@ -49,4 +53,5 @@ export {
   detailComments,
   registComment,
   deleteComment,
+  getArticleCount,
 };

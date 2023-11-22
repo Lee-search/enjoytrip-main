@@ -35,7 +35,10 @@ public interface BoardMapper {
 
 	List<CommentDto> listComment(int articleNo) throws SQLException;
 
-	void writeComment(CommentDto commentDto);
+	void writeComment(CommentDto commentDto) throws SQLException;
 
-	void deleteComment(int commentId);
+	void deleteComment(int commentId) throws SQLException;
+
+	int getArticleCount() throws SQLException;
 }
+

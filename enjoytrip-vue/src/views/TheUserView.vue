@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .bg-image {
   background-image: url('@/assets/img/background.png');
   background-size: cover;

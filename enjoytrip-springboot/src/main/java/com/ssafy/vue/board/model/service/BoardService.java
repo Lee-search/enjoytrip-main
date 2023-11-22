@@ -24,4 +24,6 @@ public interface BoardService {
     void writeComment(CommentDto commentDto) throws Exception;
 
     void deleteComment(int commentId) throws Exception;
+
+    int getArticleCount() throws Exception;
 }

@@ -302,7 +302,7 @@ const viewStation2 = (station) => {
  
 </template>
 
-<style>
+<style scoped>
 mark.purple {
   background: linear-gradient(to top, #c354ff 20%, transparent 30%);
 }

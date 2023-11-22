@@ -135,4 +135,10 @@
 		where comment_id = #{commentId}
 	</delete>
 
+	<select id="getArticleCount" resultType="int">
+		select count(*)
+		from board
+		where category = '자유게시판'
+	</select>
+
 </mapper>
