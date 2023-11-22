@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-8 mx-auto"> <!-- Set col-lg-8 and mx-auto for centering -->
         <div class="alert alert-primary" role="alert">
-          <IconPen /> 여행지갯수: {{ todoStore.allTodosCount }}
+          여행지갯수: {{ todoStore.allTodosCount }}
         </div>
       </div>
     </div>

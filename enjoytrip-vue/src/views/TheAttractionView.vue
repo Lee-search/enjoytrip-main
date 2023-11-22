@@ -188,10 +188,9 @@ const getdetail = (contentid) => {
 const viewStation = (station) => {
   selectStation.value = station;
   console.log(selectStation.value)
-  
   todoStore.addTodo(selectStation.value);
-  alert('여행지가 성공적으로 담겼습니다!');
-    
+
+  
 
 
   
@@ -204,6 +203,7 @@ const viewStation2 = (station) => {
   chargingStations.value=selectStation.value //카카오맵중
   console.log(chargingStations)
   console.log(temp.value.length)
+  console.log(typeof(temp))
   getdetail(station.contentid)
   // chargingStations.value =temp.value
 
@@ -263,7 +263,7 @@ const viewStation2 = (station) => {
   
   <div class="overview-container" style="max-width: 700px;">
     <p>{{ detatilattract }}</p>
-    <button @click="viewStation2(temp)" class="btn btn-secondary">뒤로가기</button>
+    <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button>
   </div>
   
 </div>

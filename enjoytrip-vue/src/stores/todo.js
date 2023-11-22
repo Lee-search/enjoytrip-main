@@ -14,15 +14,26 @@ export const useTodoStore = defineStore(
     // const activeTodosCount = computed(() => todos.value.filter((todo) => !todo.completed).length);   해야할목록
 
     const addTodo = (title) => {
+      // 중복 체크
+      const isDuplicate = todos.value.some((todo) => todo.title === title.title);
+      console.log(title)
+      console.log(isDuplicate)
+
+      if (isDuplicate) {
+        alert('이미 같은 제목의 항목이 있습니다.');
+        return; // 중복된 경우 함수 종료
+      }
+    
+      // 중복이 아닌 경우 데이터 추가
+      alert('여행지가 성공적으로 담겼습니다!');
       todos.value.push({
-        
         addr1: title.addr1,
         contentid: title.contentid,
         firstimage: title.firstimage,
         title: title.title,
-      }); //여기다가 정보담기 
+      });
+      
     };
-
     // const changeTodoComplete = (id) => {
     //   todos.value = todos.value.map((todo) =>
     //     todo.id === id ? { ...todo, completed: !todo.completed } : todo

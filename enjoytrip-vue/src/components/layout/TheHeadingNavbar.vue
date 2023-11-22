@@ -1,6 +1,7 @@
 <script setup>
 import { useMenuStore } from "@/stores/menu";
 import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 
 const menuStore = useMenuStore();
 
@@ -9,7 +10,7 @@ const menuStore = useMenuStore();
 const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
-import { useMemberStore } from "@/stores/member";
+
 const memberStore = useMemberStore();
 
 const logout = () => {

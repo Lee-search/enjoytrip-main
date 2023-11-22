@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted,provide } from "vue";
 
 var map;
 const markers = ref([]);
@@ -147,6 +147,11 @@ const removeMarkers = () => {
   accumulatedDistance = 0;
   distanceOverlay.value.setContent('');
 };
+
+provide('accumulatedDistance', accumulatedDistance);
+
+
+
 </script>
 
 <template>
