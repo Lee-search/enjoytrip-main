@@ -1,6 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { getArticleCount, detailArticle  } from '@/api/board';
+
+import { useMemberStore } from "@/stores/member";
 
 import seoulImg from "@/assets/attract/seoul1.png"
 import busanImg from "@/assets/attract/busan2.png"
@@ -10,6 +12,9 @@ import yeosuImg from "@/assets/attract/yeosu5.png"
 import suwonImg from "@/assets/attract/suwon6.png"
 import daejeonImg from "@/assets/attract/daejeon7.png"
 import gwangjuImg from "@/assets/attract/gwangju8.png"
+
+const memberStore = useMemberStore();
+const userInfo = computed(() => memberStore.userInfo);
 
 const popularDestinations = ref([
   {
@@ -62,7 +67,7 @@ const popularDestinations = ref([
 //   console.log(articleCount.value);
 // });
 
-const articleCount = ref(0);
+// const articleCount = ref(0);
 // onMounted(() => {
 //   async () => {
 //     getArticleCount(
@@ -84,16 +89,16 @@ onMounted(() => {
 });
 
 // 게시글 수 얻어오기
-const loadArticleCount = async () => {
-  getArticleCount(
-    ({ response }) => {
-      articleCount.value = response.data.count;
-    },
-    (error) => {
-      console.log(error);
-    }
-  )
-};
+// const loadArticleCount = async () => {
+//   getArticleCount(
+//     ({ response }) => {
+//       articleCount.value = response.data.count;
+//     },
+//     (error) => {
+//       console.log(error);
+//     }
+//   )
+// };
 
 // 임의의 게시판 글 불러오기
 const getArticle = async (articleno) => {
@@ -143,8 +148,13 @@ const getArticle = async (articleno) => {
     <div class="carousel-caption d-none d-md-block">
       <h3>여행의 모든 것, EnjoyTrip</h3>
       <p>새로운 경험을 찾아 떠나세요!</p>
-      <router-link :to="{name: 'user-login'}" class="btn btn-outline-light me-2">로그인</router-link>
-      <router-link :to="{name: 'user-join'}" class="btn btn-primary">회원가입</router-link>
+      <!-- 로그인된 상태일 때 '글쓰기' 버튼 표시 -->
+      <router-link v-if="userInfo" :to="{ name: 'article' }" class="btn btn-success">글쓰러 가기</router-link>
+      <!-- 로그인되지 않은 상태일 때 '로그인' 및 '회원가입' 버튼 표시 -->
+      <div v-else>
+        <router-link :to="{ name: 'user-login' }" class="btn btn-outline-light me-2">로그인</router-link>
+        <router-link :to="{ name: 'user-join' }" class="btn btn-primary">회원가입</router-link>
+      </div>
     </div>
 
     <!-- 좌/우 컨트롤 버튼 -->

@@ -10,7 +10,6 @@ const menuStore = useMenuStore();
 const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
-
 const memberStore = useMemberStore();
 
 const logout = () => {

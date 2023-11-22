@@ -211,83 +211,106 @@ const viewStation2 = (station) => {
 
 
 
+// 지도 열고 닫기 추가 ---------------------------
+// 지도 표시 상태를 제어하는 반응형 속성
+const isMapOpen = ref(true);
 
-
-
+// 지도 표시 상태를 토글하는 함수
+const toggleMap = () => {
+  isMapOpen.value = !isMapOpen.value;
+};
 
 </script>
 
 
 
 <template>
-  <div class="container text-center mt-3">
-    <div style="background-color: #ffffff; color: #2c3e50; padding: 20px;">
-      <h1 style="font-size: 2em;">관광지 검색</h1>
-      <p>지역별 관광지 정보를 검색하시오.</p>
-    </div>
 
-    <div class="row mb-2">
-      <div class="col d-flex flex-row-reverse">
-        <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" style="background-color: #333; color: #fff; height: 40px;" />
+  <!-- 검색 컨테이너 -->
+  <div class="container text-center mt-3">
+    
+    <!-- 제목 및 설명 -->
+    <div class="p-3">
+      <h2 class="text-primary">관광지 검색</h2>
+      <p class="text-secondary">지역별 관광지 정보를 검색하시오.</p>
+      <p class="text-secondary">공공API 문제로 관광지가 나타나지 않을 수 있습니다.</p>
+    </div>
+    <!-- 조건 selector -->
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-end">
+        <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" class="bg-dark text-white" />
       </div>
       <div class="col">
-        <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" style="background-color: #333; color: #fff; height: 40px;" />
+        <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" class="bg-dark text-white" />
       </div>
     </div>
-
-    <div class="col">
-      <button @click="selectOption('12')" :class="{ 'btn': true, 'btn-primary': selectedOption === '12', 'btn-secondary': selectedOption !== '12' }" style="margin-right: 5px; margin-bottom: 5px;">관광지</button>
-      <button @click="selectOption('14')" :class="{ 'btn': true, 'btn-primary': selectedOption === '14', 'btn-secondary': selectedOption !== '14' }" style="margin-right: 5px; margin-bottom: 5px;">문화시설</button>
-      <button @click="selectOption('15')" :class="{ 'btn': true, 'btn-primary': selectedOption === '15', 'btn-secondary': selectedOption !== '15' }" style="margin-right: 5px; margin-bottom: 5px;">축제공연행사</button>
-      <button @click="selectOption('25')" :class="{ 'btn': true, 'btn-primary': selectedOption === '25', 'btn-secondary': selectedOption !== '25' }" style="margin-right: 5px; margin-bottom: 5px;">여행코스</button>
-      <button @click="selectOption('28')" :class="{ 'btn': true, 'btn-primary': selectedOption === '28', 'btn-secondary': selectedOption !== '28' }" style="margin-right: 5px; margin-bottom: 5px;">레포츠</button>
-      <button @click="selectOption('32')" :class="{ 'btn': true, 'btn-primary': selectedOption === '32', 'btn-secondary': selectedOption !== '32' }" style="margin-right: 5px; margin-bottom: 5px;">숙박</button>
-      <button @click="selectOption('38')" :class="{ 'btn': true, 'btn-primary': selectedOption === '38', 'btn-secondary': selectedOption !== '38' }" style="margin-right: 5px; margin-bottom: 5px;">쇼핑</button>
-      <button @click="selectOption('39')" :class="{ 'btn': true, 'btn-primary': selectedOption === '39', 'btn-secondary': selectedOption !== '39' }" style="margin-right: 5px; margin-bottom: 5px;">음식점</button>
+    <!-- 검색 버튼 -->
+    <div class="col mb-3">
+      <button @click="selectOption('12')" :class="['btn', selectedOption === '12' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">관광지</button>
+      <button @click="selectOption('14')" :class="['btn', selectedOption === '14' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">문화시설</button>
+      <button @click="selectOption('15')" :class="['btn', selectedOption === '15' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">축제공연행사</button>
+      <button @click="selectOption('25')" :class="['btn', selectedOption === '25' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">여행코스</button>
+      <button @click="selectOption('28')" :class="['btn', selectedOption === '28' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">레포츠</button>
+      <button @click="selectOption('32')" :class="['btn', selectedOption === '32' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">숙박</button>
+      <button @click="selectOption('38')" :class="['btn', selectedOption === '38' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">쇼핑</button>
+      <button @click="selectOption('39')" :class="['btn', selectedOption === '39' ? 'btn-primary' : 'btn-secondary']" class="me-1 mb-1">음식점</button>
     </div>
   </div>
- 
 
+  <div class="divider mb-3"></div>
 
-
-    <!-- 카카오맵 표시 -->
-    
-    <!-- 관광지 정보 테이블 -->
-    <div v-if="!showTable" class="detail-container">
-  <div class="image-container2">
-    <img v-if="chargingStations.firstimage" :src="chargingStations.firstimage" class="card-img-top"  />
-    <div v-else class="no-image-placeholder">
-      <img src="@/assets/noimg.png" alt="No Image Available" />
+  <!-- 카카오맵 표시 -->
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <!-- 지도 열기/닫기 버튼 -->
+        <button @click="toggleMap" class="btn btn-outline-secondary w-100">
+          <span v-if="isMapOpen">지도 닫기</span>
+          <span v-else>지도 열기</span>
+        </button>
+        <VKakaoMap
+          v-if="isMapOpen"
+          :stations="chargingStations" 
+          :selectStation="selectStation"
+          :style="{ width: '100%', height: '500px' }" />
+      </div>
     </div>
   </div>
-  
-  <div class="overview-container" style="max-width: 700px;">
-    <p>{{ detatilattract }}</p>
-    <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button>
+
+  <div class="divider mb-3"></div>
+
+  <!-- 상세 정보 보기 -->
+  <div v-if="!showTable" class="detail-container text-center">
+    <div class="image-container bg-white text-primary p-3">
+      <img v-if="chargingStations.firstimage" :src="chargingStations.firstimage" class="card-img-top" />
+      <div v-else class="no-image-placeholder">
+        <img src="@/assets/noimg.png" alt="No Image Available" />
+      </div>
+    </div>
+    <div class="overview-container mx-auto" style="max-width: 700px;">
+      <p>{{ detatilattract }}</p>
+      <!-- 에러 나서 일단 비활성화 해둠 -->
+      <!-- <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button> -->
+      <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button>
+    </div>
   </div>
-  
-</div>
 
-
-
-<div v-else>
-  <div class="container">
+  <!-- 관광지 목록 보기 -->
+  <div v-else class="container">
     <div class="row">
-      <!-- 관광지 정보 반복 출력 -->
       <div v-for="station in chargingStations" :key="station.title" class="col-md-3 mb-4">
         <div class="card h-100">
-          <!-- Check if the image is available -->
-          <div class="image-container">
-            <img v-if="station.firstimage" :src="station.firstimage" class="card-img-top" />
+          <div class="image-container p-2">
+            <img v-if="station.firstimage" :src="station.firstimage" class="card-img-top img-fluid" />
             <div v-else class="no-image-placeholder">
-              <img src="@/assets/noimg.png" alt="No Image Available" />
+              <img src="@/assets/noimg.png" alt="No Image Available" class="img-fluid"/>
             </div>
           </div>
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ station.title }}</h5>
             <p class="card-text">{{ station.addr1 }} {{ station.addr2 }}</p>
-            <div class="mt-auto">
-              <button @click="viewStation(station)" class="btn btn-primary">여행지 담기</button>
+            <div class="mt-auto align-self-end">
+              <button @click="viewStation(station)" class="btn btn-primary me-2">여행지 담기</button>
               <button @click="viewStation2(station)" class="btn btn-secondary">자세히보기</button>
             </div>
           </div>
@@ -295,56 +318,10 @@ const viewStation2 = (station) => {
       </div>
     </div>
   </div>
-</div>
-<VKakaoMap :stations="chargingStations" :selectStation="selectStation" :style="{ width: '1600px', height: '900px', margin: '0 auto' }" />
-
-  
  
 </template>
 
 <style scoped>
-mark.purple {
-  background: linear-gradient(to top, #c354ff 20%, transparent 30%);
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.card {
-  max-height: 400px;
-  max-width: 300px;
-}
-
-.image-container img,
-.no-image-placeholder img {
-  width: 100%;
-  height: auto;
-}
-
-.card-title {
-  font-size: 1.2em; /* 텍스트 크기 조절 */
-}
-
-.card-text {
-  font-size: 1em; /* 텍스트 크기 조절 */
-}
-
-.btn {
-  font-size: 0.8em; /* 버튼 크기 조절 */
-}
-
-.no-image-placeholder {
-  background-color: #f0f0f0; /* 이미지가 없을 때의 배경색 설정 */
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px; /* 원하는 높이 설정 */
-}
-
-
 
 .detail-container {
   display: flex;
@@ -354,17 +331,18 @@ mark.purple {
   margin: 0 20px; /* Adjust the margin as needed for the space on both sides */
 }
 
-
-.image-container {
-  max-height: 300px;
+.image-container, .no-image-placeholder {
+  width: 300px;  /* 원하는 너비 */
+  height: 300px; /* 원하는 높이 */
   overflow: hidden;
 }
 
 .image-container img, .no-image-placeholder img {
-  width: 150%; /* 이미지를 오른쪽으로 늘리기 위해 너비를 더 크게 설정 */
-  height: auto;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 채움 */
 }
+
 
 .no-image-placeholder {
   background-color: #f0f0f0;

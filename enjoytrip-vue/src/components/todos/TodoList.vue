@@ -6,7 +6,7 @@
           <th scope="col">여행지</th>
           <th scope="col">타이틀</th>
           <th scope="col">여행지 주소</th>
-          <th scope="col">찜목록 제거</th>
+          <th scope="col">여행지 삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -31,8 +31,8 @@
           <td>{{ todo.title }}</td>
           <td>{{ todo.addr1 }}</td>
           <td>
-            <button type="button" class="btn btn-outline-secondary" @click="todoStore.removeTodo(todo.contentid)">
-              찜목록 제거
+            <button type="button" class="btn btn-outline-danger" @click="todoStore.removeTodo(todo.contentid)">
+              삭제
             </button>
           </td>
         </tr>
@@ -42,7 +42,7 @@
     <!-- 버튼들을 오른쪽 하단으로 이동 -->
     <div class="d-flex justify-content-end mt-3">
       <!-- 저장하기 버튼 -->
-      <button type="button" class="btn btn-primary" @click="saveData">
+      <button type="button" class="btn btn-primary me-2" @click="saveData">
         저장하기
       </button>
 

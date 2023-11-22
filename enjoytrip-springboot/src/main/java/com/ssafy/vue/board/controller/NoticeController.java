@@ -55,7 +55,7 @@ public class NoticeController {
 		try {
 			BoardListDto boardListDto = noticeService.listArticle(map);
 			HttpHeaders header = new HttpHeaders();
-			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			header.setContentType(new MediaType("appli                                                     cation", "json", Charset.forName("UTF-8")));
 			return ResponseEntity.ok().headers(header).body(boardListDto);
 		} catch (Exception e) {
 			return exceptionHandling(e);
