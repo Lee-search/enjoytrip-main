@@ -22,6 +22,7 @@ const selectedOption = ref("12"); // 기본값으로 "관광지" 선택
 const showTable = ref(true);
 const detatilattract=ref();
 
+const temp=ref();
 
 // const wishList = reactive([]);  //장바구니 리스트
 
@@ -188,8 +189,8 @@ const viewStation = (station) => {
   selectStation.value = station;
   console.log(selectStation.value)
   todoStore.addTodo(selectStation.value);
-  alert('여행지가 성공적으로 담겼습니다!');
-    
+
+  
 
 
   
@@ -198,9 +199,13 @@ const viewStation = (station) => {
 const viewStation2 = (station) => {
   selectStation.value = station;
   showTable.value = !showTable.value;
-  console.log(selectStation.value)
+  temp.value=chargingStations.value
+  chargingStations.value=selectStation.value //카카오맵중
+  console.log(chargingStations)
+  console.log(temp.value.length)
+  console.log(typeof(temp))
   getdetail(station.contentid)
-  
+  // chargingStations.value =temp.value
 
 };
 
@@ -249,20 +254,20 @@ const viewStation2 = (station) => {
     
     <!-- 관광지 정보 테이블 -->
     <div v-if="!showTable" class="detail-container">
-  <div class="image-container">
-    <img v-if="chargingStations.firstimage" :src="chargingStations.firstimage" class="card-img-top" />
+  <div class="image-container2">
+    <img v-if="chargingStations.firstimage" :src="chargingStations.firstimage" class="card-img-top"  />
     <div v-else class="no-image-placeholder">
       <img src="@/assets/noimg.png" alt="No Image Available" />
     </div>
   </div>
   
-  <div class="overview-container">
+  <div class="overview-container" style="max-width: 700px;">
     <p>{{ detatilattract }}</p>
-    <button @click="viewStation2(station)" class="btn btn-secondary">뒤로가기</button>
+    <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button>
   </div>
   
-  
 </div>
+
 
 
 <div v-else>
@@ -291,8 +296,8 @@ const viewStation2 = (station) => {
     </div>
   </div>
 </div>
+<VKakaoMap :stations="chargingStations" :selectStation="selectStation" :style="{ width: '1600px', height: '900px', margin: '0 auto' }" />
 
-<VKakaoMap :stations="chargingStations" :selectStation="selectStation" style="width: 700px; height: 500px;" />
   
  
 </template>
@@ -308,7 +313,8 @@ mark.purple {
 }
 
 .card {
-  max-width: 100%;
+  max-height: 400px;
+  max-width: 300px;
 }
 
 .image-container img,
@@ -343,7 +349,11 @@ mark.purple {
 .detail-container {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  margin: 0 20px; /* Adjust the margin as needed for the space on both sides */
 }
+
 
 .image-container {
   max-height: 300px;
