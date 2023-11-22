@@ -94,11 +94,13 @@ const router = createRouter({
     {
       path: "/plan",   // 나의여행계획
       name: "plan",
+      beforeEnter: onlyAuthUser,
       component: () => import("@/views/TheTodoView.vue"),
     },
     {
       path: "/notice",  // 공지사항
       name: "notice",
+      beforeEnter: onlyAuthUser,
       component: () => import("../views/TheNoticeView.vue"),
       redirect: { name: "notice-list" },
       children: [
@@ -111,29 +113,27 @@ const router = createRouter({
         {
           path: "view/:noticeno",
           name: "notice-view",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardDetail.vue"),
           meta: { type: "notice" },
         },
         {
           path: "write",
           name: "notice-write",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardWrite.vue"),
           meta: { type: "notice" },
         },
         {
           path: "modify/:noticeno",
           name: "notice-modify",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardModify.vue"),
           meta: { type: "notice" },
         },
       ],
     },
     {
-      path: "/artice",   // 여행후기공유
-      name: "artice",
+      path: "/article",   // 여행후기공유
+      name: "article",
+      beforeEnter: onlyAuthUser,
       // component: TheBoardView,
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -150,21 +150,18 @@ const router = createRouter({
         {
           path: "view/:articleno",
           name: "article-view",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardDetail.vue"),
           meta: { type: "article" },
         },
         {
           path: "write",
           name: "article-write",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardWrite.vue"),
           meta: { type: "article" },
         },
         {
           path: "modify/:articleno",
           name: "article-modify",
-          beforeEnter: onlyAuthUser,
           component: () => import("@/components/boards/BoardModify.vue"),
           meta: { type: "article" },
         },

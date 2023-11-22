@@ -1,6 +1,7 @@
 package com.ssafy.vue.board.controller;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +156,25 @@ public class BoardController {
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
+	}
+
+	@ApiOperation(value = "게시글 갯수 얻기", notes = "게시글이 몇개 있는지 반환한다.", response = Map.class)
+	@GetMapping("/count")
+	public ResponseEntity<?> getArticleCount() throws Exception {
+
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			int cnt = boardService.getArticleCount();
+			log.info("getArticleCount - {}", cnt);
+			resultMap.put("count", cnt);
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			log.error("조회 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 }

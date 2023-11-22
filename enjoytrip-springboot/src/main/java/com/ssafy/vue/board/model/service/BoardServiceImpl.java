@@ -101,4 +101,9 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteComment(commentId);
 	}
 
+	@Override
+	public int getArticleCount() throws Exception {
+		return boardMapper.getArticleCount();
+	}
+
 }
