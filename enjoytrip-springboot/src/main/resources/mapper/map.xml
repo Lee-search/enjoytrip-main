@@ -63,7 +63,7 @@
 	</select>
 	
 	
-	<insert id="saveWhisList" parameterType="WhishlistDto">
+	<insert id="saveWhishlist" parameterType="WhishlistDto">
 		insert into wishlist (contentid, title, addr1, firstimage,date, user_id)
 		values (#{contentid}, #{title}, #{addr1},#{firstimage},now(),#{user_id})
 	</insert>

@@ -185,6 +185,7 @@ function moveList() {
       <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'">
         글작성
       </button>
+      
       <button type="submit" class="btn btn-outline-success mb-3" v-else>글수정</button>
       <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="moveList">
         목록으로이동...
