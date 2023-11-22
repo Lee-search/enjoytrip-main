@@ -6,37 +6,25 @@ function listNotice(param, success, fail) {
   local.get(`/notice`, { params: param }).then(success).catch(fail);
 }
 
-async function detailNotice(noticeno, success, fail) {
-  await local.get(`/notice/${noticeno}`).then(success).catch(fail);
+async function detailNotice(articleno, success, fail) {
+  await local.get(`/notice/${articleno}`).then(success).catch(fail);
 }
 
-function registNotice(notice, success, fail) {
+function registNotice(article, success, fail) {
   // console.log("boardjs article", article);
-  local.post(`/notice`, JSON.stringify(notice)).then(success).catch(fail);
+  local.post(`/notice`, JSON.stringify(article)).then(success).catch(fail);
 }
 
-function getModifyNotice(noticeno, success, fail) {
-  local.get(`/notice/modify/${noticeno}`).then(success).catch(fail);
+function getModifyNotice(articleno, success, fail) {
+  local.get(`/notice/modify/${articleno}`).then(success).catch(fail);
 }
 
-function modifyNotice(notice, success, fail) {
-  local.put(`/notice`, JSON.stringify(notice)).then(success).catch(fail);
+function modifyNotice(article, success, fail) {
+  local.put(`/notice`, JSON.stringify(article)).then(success).catch(fail);
 }
 
-function deleteNotice(noticeno, success, fail) {
-  local.delete(`/notice/${noticeno}`).then(success).catch(fail);
-}
-
-async function detailComments(noticeno, success, fail) {
-  await local.get(`/notice/comments/${noticeno}`).then(success).catch(fail);
-}
-
-async function registComment(comment, success, fail) {
-  await local.post(`/notice/comments`, JSON.stringify(comment), success, fail);
-}
-
-async function deleteComment(commentId, success, fail) {
-  await local.delete(`/board/comments/${commentId}`, success, fail);
+function deleteNotice(articleno, success, fail) {
+  local.delete(`/notice/${articleno}`).then(success).catch(fail);
 }
 
 export {
@@ -46,7 +34,4 @@ export {
   getModifyNotice,
   modifyNotice,
   deleteNotice,
-  detailComments,
-  registComment,
-  deleteComment,
 };

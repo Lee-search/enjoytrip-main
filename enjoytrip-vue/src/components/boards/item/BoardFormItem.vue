@@ -8,13 +8,19 @@ import { useMemberStore } from "@/stores/member";
 
 const memberStore = useMemberStore();
 // const { userInfo } = memberStore;
-// console.log(userInfo);
 const userInfo = computed(() => memberStore.userInfo);
 
 const router = useRouter();
 const route = useRoute();
 
-const props = defineProps({ type: String });
+const props = defineProps({
+  type: String,
+  routeType: String
+});
+
+onMounted(() => {
+  console.log("BoardFormItem: ", props.routeType);
+})
 
 const article = ref({
   articleNo: 0,
@@ -26,21 +32,40 @@ const article = ref({
   registerTime: "",
 });
 
-// 게시글 수정하기 
+// 게시글 수정하기  -------------------------------------------
 if (props.type === "modify") {
   let { articleno } = route.params;
-  console.log(articleno + "번글 얻어와서 수정할거야");
-  getModifyArticle(
-    articleno,
-    ({ data }) => {
-      article.value = data;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  // console.log(articleno + "번글 수정");
+  if (props.routeType === 'notice') {
+
+    // if(userInfo.value.userId !== 'admin') {
+    //   alert("해당 게시판은 'admin' 유저만 접근 가능합니다.");
+    //   return;
+    // }
+
+    getModifyNotice(
+      articleno,
+      ({ data }) => {
+        article.value = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  } else {
+    getModifyArticle(
+      articleno,
+      ({ data }) => {
+        article.value = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
 
+// 입력받은 제목과 내용 검증 -----------------------------------
 const subjectErrMsg = ref("");
 const contentErrMsg = ref("");
 watch(
@@ -64,6 +89,7 @@ watch(
   { immediate: true }
 );
 
+// 글 작성 or 글 수정 클릭
 function onSubmit() {
   // event.preventDefault();
 
@@ -81,36 +107,67 @@ function writeArticle() {
   article.value.userId = userInfo.value.userId;
   article.value.userName = userInfo.value.userName;
 
-  registArticle(
-    article.value,
-    (response) => {
-      let msg = "글등록 처리시 문제 발생했습니다.";
-      if (response.status == 201) msg = "글등록이 완료되었습니다.";
-      alert(msg);
-      moveList();
-    },
-    (error) => console.log(error)
-  );
+  if (props.routeType === 'notice') {
+    registNotice(
+      article.value,
+      (response) => {
+        let msg = "글등록 처리시 문제 발생했습니다.";
+        if (response.status == 201) msg = "글등록이 완료되었습니다.";
+        alert(msg);
+        moveList();
+      },
+      (error) => console.log(error)
+    );
+  } else {
+    registArticle(
+      article.value,
+      (response) => {
+        let msg = "글등록 처리시 문제 발생했습니다.";
+        if (response.status == 201) msg = "글등록이 완료되었습니다.";
+        alert(msg);
+        moveList();
+      },
+      (error) => console.log(error)
+    );
+  }
 }
-
 function updateArticle() {
   console.log(article.value.articleNo + "번글 수정하자!!", article.value);
-  modifyArticle(
-    article.value,
-    (response) => {
-      let msg = "글수정 처리시 문제 발생했습니다.";
-      if (response.status == 200) msg = "글정보 수정이 완료되었습니다.";
-      alert(msg);
-      moveList();
-      // router.push({ name: "article-view" });
-      // router.push(`/board/view/${article.value.articleNo}`);
-    },
-    (error) => console.log(error)
-  );
+  if(props.routeType === 'notice') {
+    modifyNotice(
+      article.value,
+      (response) => {
+        let msg = "글수정 처리시 문제 발생했습니다.";
+        if (response.status == 200) msg = "글정보 수정이 완료되었습니다.";
+        alert(msg);
+        moveList();
+        // router.push({ name: "article-view" });
+        // router.push(`/board/view/${article.value.articleNo}`);
+      },
+      (error) => console.log(error)
+    );
+  } else {
+    modifyArticle(
+      article.value,
+      (response) => {
+        let msg = "글수정 처리시 문제 발생했습니다.";
+        if (response.status == 200) msg = "글정보 수정이 완료되었습니다.";
+        alert(msg);
+        moveList();
+        // router.push({ name: "article-view" });
+        // router.push(`/board/view/${article.value.articleNo}`);
+      },
+      (error) => console.log(error)
+    );
+  }
 }
 
 function moveList() {
-  router.push({ name: "article-list" });
+  if(props.routeType === 'notice') {
+    router.push({ name: "notice-list" });
+  } else {
+    router.push({ name: "article-list" });
+  }
 }
 </script>
 

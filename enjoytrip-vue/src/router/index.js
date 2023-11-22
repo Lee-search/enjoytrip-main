@@ -25,11 +25,11 @@ const onlyAuthUser = async (to, from, next) => {
     return;
   }
 
-  if (from.matched[0].name === 'notice' && memberStore.userInfo.userId !== 'admin') {
-    alert("관리자 페이지 입니다!");
-    next({ name: "notice-list" });
-    return;
-  }
+  // if (from.matched[0].name === 'notice' && memberStore.userInfo.userId !== 'admin') {
+  //   alert("관리자 페이지 입니다!");
+  //   next({ name: "notice-list" });
+  //   return;
+  // }
 
   next();
 };

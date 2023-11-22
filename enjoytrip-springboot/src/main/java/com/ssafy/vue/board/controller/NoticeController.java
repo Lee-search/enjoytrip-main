@@ -86,7 +86,6 @@ public class NoticeController {
 	public ResponseEntity<String> modifyArticle(
 			@RequestBody @ApiParam(value = "수정할 글정보.", required = true) BoardDto boardDto) throws Exception {
 		log.info("modifyArticle - 호출 {}", boardDto);
-
 		noticeService.modifyArticle(boardDto);
 		return ResponseEntity.ok().build();
 	}
