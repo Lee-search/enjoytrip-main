@@ -207,9 +207,4 @@ provide('accumulatedDistance', accumulatedDistance);
 </template>
 
 <style>
-#map {
-  width: 100%;
-  height: 500px;
-  margin: 0 20px;
-}
 </style>

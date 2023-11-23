@@ -1,15 +1,21 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { modifyUserInfo, modifyPassword, userConfirm } from "@/api/user";
 import { useMemberStore } from "@/stores/member";
 import { httpStatusCode } from "@/util/http-status";
 
 // toRef: pinia 안의 userInfo 가져올 때, 반응형으로 감싸서 가져옴
 const memberStore = useMemberStore();
-const { userInfo } = memberStore;
+const userInfo = computed(() => memberStore.userInfo);
 
 const isUserModify = ref(false);
 const isPwModify = ref(false);
+
+// userInfo 최신화 로직
+const fetchUserInfo = async () => {
+  let token = sessionStorage.getItem("accessToken");
+  await memberStore.getUserInfo(token);
+};
 
 // 회원정보 클릭
 const onUserModify = () => {
@@ -25,9 +31,9 @@ const onPwModify = () => {
 
 // 초기화 클릭
 const resetForm = () => {
-  formUserData.value.userName = userInfo.userName;
-  formUserData.value.emailId = userInfo.emailId;
-  formUserData.value.emailDomain = userInfo.emailDomain;
+  formUserData.value.userName = userInfo.value.userName;
+  formUserData.value.emailId = userInfo.value.emailId;
+  formUserData.value.emailDomain = userInfo.value.emailDomain;
   formPwData.value.currentPwd = '';
   formPwData.value.newPwd = '';
   formPwData.value.newPwdcheck = '';
@@ -35,10 +41,10 @@ const resetForm = () => {
 
 // 수정 버튼 관련 폼
 const formUserData = ref({
-  userId: userInfo.userId,
-  userName: userInfo.userName,
-  emailId: userInfo.emailId,
-  emailDomain: userInfo.emailDomain,
+  userId: userInfo.value.userId,
+  userName: userInfo.value.userName,
+  emailId: userInfo.value.emailId,
+  emailDomain: userInfo.value.emailDomain,
 });
 
 // 회원정보 --------------------------------------------------
@@ -56,13 +62,13 @@ const onModifyUserInfo = async () => {
   
   await modifyUserInfo(
     formUserData.value,
-    (response) => {
+    async (response) => {
       alert("회원 정보 수정 완료!");
       // userInfo 강제 업데이트
       // let token = sessionStorage.getItem("accessToken");
-      // getUserInfo(token);
+      // useMemberStore.getUserInfo(token);
+      await fetchUserInfo();
       isUserModify.value = !isUserModify.value;
-      window.location.reload(); // 그냥 새로고침 함..
     },
     (error) => {
       console.error(error);
@@ -131,7 +137,7 @@ const onModifyPassword = async () => {
             <!-- 이미지 부분 -->
             <div class="col-md-4 d-flex align-items-center justify-content-center">
               <img
-                src="https://source.unsplash.com/random/250x250/?food"
+              src="@/assets/img/profile-icon.png"
                 class="img-fluid rounded"
                 alt="..."
               />

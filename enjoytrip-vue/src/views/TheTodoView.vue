@@ -6,7 +6,7 @@ import TodoList from "@/components/todos/TodoList.vue";
 
 <template>
   <div class="container text-center mt-3">
-    <div class="alert alert-warning" role="alert">여행목록</div>
+    <!-- <div class="alert alert-warning" role="alert">여행목록</div> -->
     <div class="row">
       <div class="col">
         <todo-header></todo-header>

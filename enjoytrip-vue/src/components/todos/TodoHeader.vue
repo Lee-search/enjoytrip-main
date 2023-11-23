@@ -1,10 +1,12 @@
 <template>
   <div class="container text-center">
-    <div class="row">
-      <div class="col-lg-8 mx-auto"> <!-- Set col-lg-8 and mx-auto for centering -->
-        <div class="alert alert-primary" role="alert">
-          여행지갯수: {{ todoStore.allTodosCount }}
-        </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <h2 class="my-4 py-3 shadow bg-info text-white text-center rounded">
+          나의 여행 계획
+        </h2>
+        <p class="text-secondary">관광지 갯수: {{ todoStore.allTodosCount }} 총거리: {{ todoStore.allTodosCount }}km</p>
+        <p class="text-secondary">총거리: {{ todoStore.allTodosCount }}km</p>
       </div>
     </div>
   </div>

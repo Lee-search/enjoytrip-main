@@ -6,7 +6,7 @@
           <th scope="col">여행지</th>
           <th scope="col">타이틀</th>
           <th scope="col">여행지 주소</th>
-          <th scope="col">찜목록 제거</th>
+          <th scope="col">여행지 삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -31,8 +31,8 @@
           <td>{{ todo.title }}</td>
           <td>{{ todo.addr1 }}</td>
           <td>
-            <button type="button" class="btn btn-outline-secondary" @click="todoStore.removeTodo(todo.contentid)">
-              찜목록 제거
+            <button type="button" class="btn btn-outline-danger" @click="todoStore.removeTodo(todo.contentid)">
+              삭제
             </button>
 
     
@@ -50,7 +50,7 @@
       <!-- 공유하기 버튼 -->
       <form @submit.prevent="onSubmit">
     <div class="col-auto text-center">
-      <button type="button" class="btn btn-outline-danger mb-3" @click="todoStore.removeall()">
+      <button type="button" class="btn btn-outline-danger mb-3 me-2" @click="todoStore.removeall()">
               찜목록비우기
       </button>
       <button type="submit" class="btn btn-outline-primary mb-3">
