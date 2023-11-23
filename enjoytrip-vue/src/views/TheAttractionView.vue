@@ -8,6 +8,9 @@ import { useTodoStore } from "@/stores/todo";
 const todoStore = useTodoStore();
 
 
+const currentPage = ref(1);
+const totalPage = ref(0);
+const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
 
 
 
@@ -22,7 +25,7 @@ const selectedOption = ref("12"); // 기본값으로 "관광지" 선택
 const showTable = ref(true);
 const detatilattract=ref();
 
-const temp=ref();
+const temp=ref([]);
 
 // const wishList = reactive([]);  //장바구니 리스트
 
@@ -196,16 +199,26 @@ const viewStation = (station) => {
   
 };
 
+
+//charingstations는 여러개  selectStation현재 선택된친구 
 const viewStation2 = (station) => {
-  selectStation.value = station;
+  selectStation.value = station;  //현재들어온친구
   showTable.value = !showTable.value;
-  temp.value=chargingStations.value
-  chargingStations.value=selectStation.value //카카오맵중
-  console.log(chargingStations)
-  console.log(temp.value.length)
-  console.log(typeof(temp))
+  console.log(chargingStations.value)
+  temp.value = chargingStations.value
+  chargingStations.value = selectStation.value //카카오맵중
   getdetail(station.contentid)
   // chargingStations.value =temp.value
+
+};
+
+//뒤로가기 
+const viewStation3 = () => {
+  
+  chargingStations.value=temp.value 
+  showTable.value = !showTable.value;
+  
+  
 
 };
 
@@ -263,7 +276,7 @@ const viewStation2 = (station) => {
   
   <div class="overview-container" style="max-width: 700px;">
     <p>{{ detatilattract }}</p>
-    <button @click="viewStation2(temp.value)" class="btn btn-secondary">뒤로가기</button>
+    <button @click="viewStation3()" class="btn btn-secondary">뒤로가기</button>
   </div>
   
 </div>
@@ -296,7 +309,7 @@ const viewStation2 = (station) => {
     </div>
   </div>
 </div>
-<VKakaoMap :stations="chargingStations" :selectStation="selectStation" :style="{ width: '1600px', height: '900px', margin: '0 auto' }" />
+<VKakaoMap :stations="chargingStations" :selectStation="selectStation" />
 
   
  

@@ -11,6 +11,8 @@ const distanceOverlay = ref(null);
 const props = defineProps({ stations: Array, selectStation: Object });
 
 
+
+
 watch(
   () => props.selectStation.value,
   () => {
@@ -41,12 +43,22 @@ onMounted(() => {
 });
 
 const initMap = () => {
+
+  
+
+
   const container = document.getElementById("map");
   const options = {
     center: new kakao.maps.LatLng(33.450701, 126.570667),
     level: 3,
+    scrollwheel: false, // 휠 이벤트 비활성화
   };
   map = new kakao.maps.Map(container, options);
+
+  var zoomControl = new kakao.maps.ZoomControl();
+
+		// 지도의 우측에 확대 축소 컨트롤을 추가한다
+		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);  
 
   infowindow.value = new kakao.maps.InfoWindow({
     zIndex: 1,
@@ -59,6 +71,8 @@ const initMap = () => {
     strokeOpacity: 0.7,
   });
 
+
+  
   distanceOverlay.value = new kakao.maps.CustomOverlay({
     map: map,
     content: '',
@@ -74,15 +88,21 @@ const initMap = () => {
   // });
 
   kakao.maps.event.addListener(map, "rightclick", () => {
-    removeMarkers();
-    drawLine();
+  // 마커를 하나씩 제거하고 경로를 다시 그림
+    removeMarker();
   });
 
-  kakao.maps.event.addListener(map, "dragend", () => {
-    
+  
+
+  container.addEventListener("mousewheel", (e) => {
+    e.preventDefault();
   });
+
+
+
 };
 
+//마커를 추가하기
 const addMarker = (position, station) => {
   const marker = new kakao.maps.Marker({
     map: map,
@@ -100,8 +120,19 @@ const addMarker = (position, station) => {
   // 마커가 2개 이상일 때 빨간 선 그리기
   if (markers.value.length >= 2) {
     drawLine();
+    adjustMapBounds(); // 새로운 마커가 추가될 때마다 맵의 경계 조정
+
+
   }
 };
+
+const adjustMapBounds = () => {
+  const bounds = new kakao.maps.LatLngBounds();
+  markers.value.forEach((marker) => bounds.extend(marker.getPosition()));
+  map.setBounds(bounds);
+};
+
+
 
 const showInfoWindow = (station) => {
   const content =
@@ -120,7 +151,7 @@ const showInfoWindow = (station) => {
 
 const drawLine = () => {
   const path = markers.value.map((marker) => marker.getPosition());
-  line.value.setPath(path);
+  line.value.setPath(path); 
 
   // getLength() 메서드를 사용하여 현재까지 그려진 선의 총 길이 계산
   const currentDistance = line.value.getLength();
@@ -141,12 +172,29 @@ const drawLine = () => {
   
 };
 
-const removeMarkers = () => {
-  markers.value.forEach((marker) => marker.setMap(null));
-  markers.value = [];
-  accumulatedDistance = 0;
-  distanceOverlay.value.setContent('');
+
+
+
+const removeMarker = () => {
+  if (markers.value.length > 0) {
+    markers.value[markers.value.length - 1].setMap(null); // 마지막 마커 제거
+    markers.value.pop(); // 마커 배열에서도 제거
+    drawLine(); // 경로 다시 그리기
+    adjustMapBounds(); // 맵의 경계 조정
+  }
+
+  // 마커가 없을 때는 누적 거리를 0으로 초기화
+  if (markers.value.length === 0) {
+    accumulatedDistance = 0;
+    
+    // 거리 정보를 커스텀 오버레이에 표시
+    const path = markers.value.map((marker) => marker.getPosition());
+    const content = `<div class="dotOverlay distanceInfo">총거리 <span class="number">${accumulatedDistance.toFixed(3)}</span>km</div>`;
+    distanceOverlay.value.setContent(content);
+    distanceOverlay.value.setPosition(path[path.length - 1]);
+  }
 };
+
 
 provide('accumulatedDistance', accumulatedDistance);
 
@@ -161,6 +209,7 @@ provide('accumulatedDistance', accumulatedDistance);
 <style>
 #map {
   width: 100%;
-  height: 700px;
+  height: 500px;
+  margin: 0 20px;
 }
 </style>

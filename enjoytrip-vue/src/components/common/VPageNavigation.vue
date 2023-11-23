@@ -44,11 +44,14 @@ function onPageChange(pg) {
       <li class="page-item">
         <a class="page-link" @click="onPageChange(startPage == 1 ? 1 : startPage - 1)">이전</a>
       </li>
+
       <template v-for="pg in range(startPage, endPage)" :key="pg">
         <li :class="currentPage === pg ? 'page-item active' : 'page-item'">
           <a class="page-link" @click="onPageChange(pg)">{{ pg }}</a>
         </li>
       </template>
+
+      
       <li class="page-item">
         <a class="page-link" @click="onPageChange(endRange ? totalPage : endPage + 1)">다음</a>
       </li>

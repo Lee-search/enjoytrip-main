@@ -34,6 +34,9 @@
             <button type="button" class="btn btn-outline-secondary" @click="todoStore.removeTodo(todo.contentid)">
               찜목록 제거
             </button>
+
+    
+
           </td>
         </tr>
       </tbody>
@@ -47,6 +50,9 @@
       <!-- 공유하기 버튼 -->
       <form @submit.prevent="onSubmit">
     <div class="col-auto text-center">
+      <button type="button" class="btn btn-outline-danger mb-3" @click="todoStore.removeall()">
+              찜목록비우기
+      </button>
       <button type="submit" class="btn btn-outline-primary mb-3">
         글작성
       </button>
