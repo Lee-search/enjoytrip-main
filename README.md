@@ -1,9 +1,3 @@
-# -TEMP-
-
-로그인 화면
-
-1. 프로젝트 설계서
-
 # EnjoyTrip 프로젝트 설계서
 
 ![logo](https://github.com/Lee-search/enjoytrip-vue/assets/95065616/811e64bb-3ca5-4f87-a7a8-3804a530dfe8)
@@ -39,10 +33,8 @@
     - 조회한 관광지를 활용하여 여행 계획을 설정할 수 있습니다.
     - 작성한 여행계획은 ‘나의여행계획’ 네비게이션 바를 클릭하여 확인할 수 있습니다.
     - 여행계획을 ‘공유게시판’을 통해 자동으로 공유할 수 있습니다.
-- 기능 2: (여기에 설명)
 
 ![usecase2](https://github.com/Lee-search/enjoytrip-vue/assets/95065616/4b1aad60-2bd7-4939-9a89-5176023a6ad2)
--f86cd526d4b1)
 
 ## 2. 테이블 구조도 (ERD)
 
@@ -50,8 +42,9 @@
 
 **주요 엔티티 및 관계**
 
-- attraction: sido와 gugun을 참고하여 attraction목록을 참조 [content_id] detail을description참조
-- board:  comments (내용) , file_info(파일정보) , memo(덧글), members(글쓴이)를 활용
+- sido와 gugun을 참고하여 attraction 출력
+- 공공API의 불안정을 고려해 attraction 관련 DB 추가 저장
+- board (게시글 정보), comments (게시글 댓글) , file_info(파일정보), members(맴버 정보)를 활용
 
 ## 3. 클래스 다이어그램
 
@@ -64,9 +57,9 @@
 
 ![screencapture-localhost-5173-2023-11-23-15_04_20](https://github.com/Lee-search/enjoytrip-vue/assets/95065616/3d45d1b4-fd51-46f9-91b6-f0af599de235)
 
-- 깔끔한 UI와 간단한 애니메이션으로 사용자 경험 향상시켰습니다
-- 메인 페이지에는 사용자가 최대한 서비스를 많이 이용하도록 여러 여행지를 추천해줍니다
-- 다양한 사용자의 여행 후기를 미리 참고 할 수 있습니다.
+- 깔끔한 UI와 간단한 애니메이션으로 사용자 경험 향상을 고려했습니다.
+- 메인 페이지에는 사용자가 최대한 서비스를 많이 이용하도록 여러 여행지를 추천합니다.
+- 다양한 사용자의 여행 후기를 미리 참고할 수 있습니다.
 
 ### [로그인화면]                                                    [회원가입]
 
