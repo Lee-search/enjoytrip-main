@@ -1,6 +1,7 @@
 # EnjoyTrip 프로젝트 설계서
 
-![logo](https://github.com/Lee-search/enjoytrip-vue/assets/95065616/811e64bb-3ca5-4f87-a7a8-3804a530dfe8)
+![logo (1)](https://github.com/Lee-search/enjoytrip-main/assets/95065616/de028772-772b-450d-b471-053f05bb9b69)
+
 
 ## Team
 
@@ -55,7 +56,7 @@
 
 ### [메인페이지]
 
-![screencapture-localhost-5173-2023-11-23-15_04_20](https://github.com/Lee-search/enjoytrip-vue/assets/95065616/3d45d1b4-fd51-46f9-91b6-f0af599de235)
+![screencapture-localhost-5173-2023-11-23-15_04_20](https://github.com/Lee-search/enjoytrip-main/assets/95065616/9d466bd2-4749-49ac-91b2-f1fd5f1c3fb0)
 
 - 깔끔한 UI와 간단한 애니메이션으로 사용자 경험 향상을 고려했습니다.
 - 메인 페이지에는 사용자가 최대한 서비스를 많이 이용하도록 여러 여행지를 추천합니다.
